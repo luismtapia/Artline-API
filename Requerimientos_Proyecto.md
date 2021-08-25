@@ -29,6 +29,10 @@ _Definan los requerimientos del proyecto, así como su estructura, es decir, res
 
 
 _Utilicen historias de usuario para ayudarte a responder las preguntas del inciso anterior._
+   * Como artista quiero poder subir mi arte para que otros lo vean e interactúen con él
+   * Como artista quiero poder hacer una cuenta en la plataforma para poder interactuar con otros
+   * Como artista quiero poder comentar en las publicaciones de otros artistas para expresar mi opinión
+   * Como artista quiero poder descubrir artistas nuevos para seguirlos y estar al tanto de sus creaciones
 
 _Definan en JavaScript las clases que representen cada entidad de su proyecto._
 
