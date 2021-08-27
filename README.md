@@ -1,7 +1,9 @@
-# bedu-team10-arte
-Proyecto santander bedu backend arte
+# <p align="center">Artline</p>
+Proyecto santander bedu backend Artline la red social para artistas
 
 ## [Equipo 10](https://github.com/14030598/bedu-team10-arte/wiki/Home)
+
+## Uso
 
 ## Toda la documentación se encuentra en la Wiki
 
