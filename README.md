@@ -10,4 +10,4 @@ Proyecto santander bedu backend Artline la red social para artistas
 - [Historias de usuario](https://github.com/14030598/bedu-team10-arte/wiki/Historias-de-usuario)
 - [Requerimientos](https://github.com/14030598/bedu-team10-arte/wiki/Requerimientos)
 - [Documentación]
-- Timeline de desarrollo
+- [Flujo de trabajo (desarrollo)](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo)
