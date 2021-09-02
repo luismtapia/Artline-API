@@ -1,0 +1,26 @@
+{
+  "name": "bedu-team10-arte",
+  "version": "1.0.0",
+  "description": "Proyecto santander bedu backend Artline la red social para artistas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./app.js",
+    "dev": "nodemon ./app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/14030598/bedu-team10-arte.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/14030598/bedu-team10-arte/issues"
+  },
+  "homepage": "https://github.com/14030598/bedu-team10-arte#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
