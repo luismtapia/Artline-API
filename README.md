@@ -9,5 +9,5 @@ Se desarrollará una API para una red social enfocada al ámbito artístico. Est
 
 - [Historias de usuario](https://github.com/14030598/bedu-team10-arte/wiki/Historias-de-usuario)
 - [Requerimientos](https://github.com/14030598/bedu-team10-arte/wiki/Requerimientos)
-- [Documentación]
+- [Documentación](https://www.behance.net/gallery/126576155/Case-study-Artline?)
 - [Flujo de trabajo (desarrollo)](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo)
