@@ -2,6 +2,12 @@
 Se desarrollará una API para una red social enfocada al ámbito artístico. Esta API permitirá registrar una cuenta, ingresar sesión, crear una biografía y eliminar la cuenta. A su vez, existe un moderador que pueda ingresar sesión, visualicé las biografías de los artistas, active, desactive o elimine las cuentas de artistas.
 
 ## [Equipo 10](https://github.com/14030598/bedu-team10-arte/wiki/Home)
+Integrantes:
+Delia Anahí Venegas Amador :woman:
+Estefanía Cervantes Lara :woman:
+Magda Lucia Hernández Solis :woman:
+Edgar Hernández Luna :man:
+Luis Manuel Tapia Bautista :man:
 
 ## Uso
 
