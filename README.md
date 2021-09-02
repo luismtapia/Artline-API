@@ -3,11 +3,11 @@ Se desarrollará una API para una red social enfocada al ámbito artístico. Est
 
 ## [Equipo 10](https://github.com/14030598/bedu-team10-arte/wiki/Home)
 Integrantes:
--Delia Anahí Venegas Amador :woman:
--Estefanía Cervantes Lara :woman:
--Magda Lucia Hernández Solis :woman:
--Edgar Hernández Luna :man:
--Luis Manuel Tapia Bautista :man:
+Delia Anahí Venegas Amador
+Estefanía Cervantes Lara
+Magda Lucia Hernández Solis 
+Edgar Hernández Luna
+Luis Manuel Tapia Bautista
 
 ## Uso
 
