@@ -1,5 +1,5 @@
 # <p align="center">Artline</p>
-Se desarrollará una API para una red social enfocada al ámbito artístico. Esta API permitirá registrar una cuenta, ingresar sesión, crear una biografía y eliminar la cuenta. A su vez, existe un moderador que pueda ingresar sesión, visualicé las biografías de los artistas, active, desactive o elimine las cuentas de artistas.
+Se desarrollará una API para una red social enfocada al ámbito artístico. Esta API permitirá registrar una cuenta, crear una biografía y eliminar la cuenta. A su vez, existe un moderador que pueda consultar las biografías de los artistas, active, desactive o elimine las cuentas de artistas.
 
 ## Equipo 10
 -[Integrantes](https://github.com/14030598/bedu-team10-arte/wiki/Home)
