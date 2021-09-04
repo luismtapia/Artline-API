@@ -7,6 +7,7 @@ app.use(bodyParser.json());
 
 //Configuración de Rutas
 
+app.use('/Artline', require('./routes'));
 
 const PORT = 4001;
 app.listen(PORT, () => {
