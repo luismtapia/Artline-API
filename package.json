@@ -2,7 +2,7 @@
   "name": "bedu-team10-arte",
   "version": "1.0.0",
   "description": "Proyecto santander bedu backend Artline la red social para artistas",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node ./app.js",
     "dev": "nodemon ./app.js",
