@@ -15,6 +15,8 @@ Para información más detallada puedes acceder al apartado [Flujo de trabajo](h
 ## Descripción técnica :computer:
 Para el desarrollo de esta API se está haciendo uso de Node.js y MongoDB.
 Para información más detallada sobre la estructura de carpetas/archivos y la forma de correr el proyecto puedes acceder al apartado [Flujo de trabajo](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo) en la Wiki.
+### Uso
+![preview uso](assets/usage.gif)
 
 ## Toda la documentación se encuentra en la Wiki :book:
 
