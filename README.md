@@ -1,4 +1,5 @@
 # <p align="center">Artline</p>
+![Logo Artline](https://github.com/14030598/bedu-team10-arte/bedu-team10-arte\assets\logo.jpeg)
 Este proyecto consiste en el desarrollo de una API para una red social enfocada al ámbito artístico.:art:
 Se busca que esta API tenga acceso a una base de datos de artistas y obras, para así crear una serie de endpoints enfocados a la creación, consulta y edición de dicha información. Todo esto con el fin de crear una comunidad de usuarios que disfrutan de ver y compartir el arte.
 
