@@ -1,9 +1,9 @@
 // Clase para los usuarios, 
 class Usuario{
-    constructor(id, idUsuario, contraseña, nombre, followercount, bio, postcount, likes){
+    constructor(id, idUsuario, password, nombre, followercount, bio, postcount, likes){
         this.id = id;
         this.idUsuario = idUsuario;
-        this.contraseña = contraseña;
+        this.password = password;
         this.nombre = nombre;
         this.followercount = followercount;
         this.bio = bio;

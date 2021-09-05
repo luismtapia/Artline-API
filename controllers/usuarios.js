@@ -1,6 +1,6 @@
 const Usuario = require('../models/Usuario');
 
-// CRUD para Publicacion
+// CRUD para Usuario
 function crearUsuario(req, res) {
     var usuario = new Usuario(req.body);
     res.status(200).send(usuario); 
@@ -8,7 +8,7 @@ function crearUsuario(req, res) {
 
 function recuperarUsuario(req, res){
     var usuarioID= new Usuario(req.params.id);
-    res.status(200).send(usuario);
+    res.status(200).send(usuarioID);
 }
 
 function modificarUsuario (req,res){
@@ -30,11 +30,21 @@ function consultarparametrosartistas(req, res) {
     res.status(200).send('Mira los parametros  del  artista :o');
 }
 
+function readTodosUsuarios(req, res){
+    res.status(200).send('Aquí puedes ver todos lo usuarios de artline');
+}
+
+function readTopUsuarios(req, res){
+    res.status(200).send('Aquí puedes ver el Top 10 de usuarios de artline');
+}
+
 module.exports = {
     crearUsuario,
     recuperarUsuario,
     modificarUsuario,
     eliminarUsuario,
     consultaratributosartistas,
-    consultarparametrosartistas
+    consultarparametrosartistas,
+    readTodosUsuarios,
+    readTopUsuarios
 }

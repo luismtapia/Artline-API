@@ -6,7 +6,6 @@ router.get('/', (req, res) => {
     res.send('Bienvenido a Artline');
 });
 
-//router.use('/usuarios', require('./usuarios'));
 router.use('/publicaciones', require('./publicaciones'));
 router.use('/usuarios', require('./usuarios'));
 
