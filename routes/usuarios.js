@@ -1,18 +1,23 @@
 const router = require('express').Router();
 
+const { Router } = require('express');
 const {
     crearUsuario,
     recuperarUsuario,
     modificarUsuario,
     eliminarUsuario,
-    consultaratributosartistas,
-    consultarparametrosartistas,
+    consultarAtributosArtistas,
+    consultarParametrosArtistas,
     readTodosUsuarios,
-    readTopUsuarios
+    readTopUsuarios,
+    consultarIdArtista
 
 } = require('../controllers/usuarios');
 
 router.get('/', recuperarUsuario);
+router.get('/:id', consultarIdArtista);
+router.get('/atributos', consultarAtributosArtistas);
+router.get('/params', consultarParametrosArtistas);
 router.post('/', crearUsuario);
 router.put('/:id',     modificarUsuario);
 router.delete('/:id',  eliminarUsuario);
