@@ -22,12 +22,19 @@ function eliminarUsuario (req, res){
     res.status(200).send('El usuario ${req.params.id} se eliminó.');
 }
 
+function consultaratributosartistas(req, res) {
+    res.status(200).send('Mira los atributos  del  artista :o');
+}
 
-
+function consultarparametrosartistas(req, res) {
+    res.status(200).send('Mira los parametros  del  artista :o');
+}
 
 module.exports = {
     crearUsuario,
     recuperarUsuario,
     modificarUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    consultaratributosartistas,
+    consultarparametrosartistas
 }
