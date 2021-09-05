@@ -6,17 +6,20 @@ const {
     readUsuario,
     updateUsuario,
     deleteUsuario,
-    consultaratributosartistas,
-    consultarparametrosartistas,
+    readAtributosUsuario,
+    readParametrosUsuario,
     readTodosUsuarios,
     readTopUsuarios,
-    consultarIdArtista
+    readIdUsuario
 
 } = require('../controllers/usuarios');
 
 router.get('/', readUsuario);
 router.post('/', createUsuario);
 router.put('/:id', updateUsuario);
+router.get('/:id', readIdUsuario);
+router.get('/atributos', readAtributosUsuario);
+router.get('/params', readParametrosUsuario);
 router.delete('/:id', deleteUsuario);
 router.get('/todosUsuarios',readTodosUsuarios);
 router.get('/topUsuarios',readTopUsuarios);
