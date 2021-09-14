@@ -5,8 +5,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Configuración de Rutas
+//Configuracion a base de datos
+const mongoose = require('mongoose');
+mongoose.connect("mongodb+srv://db_artline:dbuserbedu@bedue10artline.hhsqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+mongoose.set("debug", true);
 
+//importar los Schemas
+require('./models/Publicacion');
+
+//Configuración de Rutas
 app.use('/Artline', require('./routes'));
 
 const PORT = 4001;
