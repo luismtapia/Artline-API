@@ -17,16 +17,15 @@ module.exports = Usuario; */
 const mongoose = require('mongoose');
 
 const UsuarioSchema = new mongoose.Schema({
-    idUsuario: String, // 
-    password: String, // JWT
+    password: String, // JWT - Passport
     nombre: {type: String, required: true},
     followercount: Number,
     bio: {type: String, required: true},
-    postcount: String, // 
+    postcount: Number, // Número de posts - Aggregate
     likes: Number
-}, {collection: "usuarios", timestamps: true});
+}, {collection: "usuarios", timestamps: true, versionKey: false});
 
-UsuarioSchema.methods.publicData = () => {
+UsuarioSchema.methods.publicData = function () {
     return {
         id: this.id,
         nombre: this.nombre,
