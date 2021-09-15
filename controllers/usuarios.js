@@ -1,9 +1,10 @@
-const Usuario = require("../models/Usuario");
+const mongoose = require("mongoose");
+const Usuario = mongoose.model("Usuario");
 
 // CRUD para Usuario
-function createUsuario(req, res) {
+function createUsuario(req, res, next) {
   const usuario = new Usuario(req.body);
-  res.status(200).send(usuario);
+  usuario.save().then(user => res.status(200).send(user)).catch(next);
 }
 
 function readUsuario(req, res) {
