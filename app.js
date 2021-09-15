@@ -1,12 +1,21 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+// Express
+const express = require('express');
 const app = express();
 
+// BodyParser
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//Configuración de Rutas
+// Configuración de Mongoose
+const mongoose = require('mongoose');
+/* mongoose.connect(""); */
+mongoose.set('debug', true);
 
+// Modelos - Esquemas
+require('./models/Usuario');
+
+// Configuración de Rutas
 app.use('/Artline', require('./routes'));
 
 const PORT = 4001;
