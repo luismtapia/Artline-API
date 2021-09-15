@@ -23,9 +23,9 @@ const UsuarioSchema = new mongoose.Schema({
     bio: {type: String, required: true},
     postcount: Number, // Número de posts - Aggregate
     likes: Number
-}, {collection: "usuarios", timestamps: true});
+}, {collection: "usuarios", timestamps: true, versionKey: false});
 
-UsuarioSchema.methods.publicData = () => {
+UsuarioSchema.methods.publicData = function () {
     return {
         id: this.id,
         nombre: this.nombre,

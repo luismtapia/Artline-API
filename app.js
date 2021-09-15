@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 
 // Configuración de Mongoose
 const mongoose = require('mongoose');
+
 /* mongoose.connect(""); */
 mongoose.set('debug', true);
 

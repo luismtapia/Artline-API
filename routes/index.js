@@ -1,5 +1,5 @@
 // importamos las dependencias necesarias
-var router = require('express').Router();
+const router = require('express').Router();
 
 // definimos el comportamiento en la raíz del endpoint
 router.get('/', (req, res) => {
