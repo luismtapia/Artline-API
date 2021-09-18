@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/publicaciones', require('./publicaciones'));
+router.use('/comentarios', require('./comentarios'));
 router.use('/usuarios', require('./usuarios'));
 
 // exportamos nuestro nuevo router

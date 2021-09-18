@@ -23,7 +23,23 @@ function readComentario(req, res, next) {
 }
 
 function updateComentario(req, res, next) {
-    res.send('Actualiza una Publicación');
+    Comentario.findById(req.params.id)
+    .then(comment => {
+        if(!comment){ return res.sendStatus(401);}
+        let nuevoComentario = req.body;
+        if(typeof nuevoComentario.idUsuario !== 'undefined')
+            comment.idUsuario = nuevoComentario.idUsuario;
+        if(typeof nuevoComentario.texto !== 'undefined')
+            comment.texto = nuevoComentario.texto;
+        if(typeof nuevoComentario.attachment !== 'undefined')
+            comment.attachment = nuevoComentario.attachment;
+        if(typeof nuevoComentario.respuesta !== 'undefined')
+            comment.respuesta = nuevoComentario.respuesta;
+        comment.save()
+            .then(commentupdated => res.status(200).json(commentupdated.publicData))
+            .catch(next);
+    })
+    .catch(next);
 }
 
 function deleteComentario(req, res, next) {

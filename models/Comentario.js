@@ -16,8 +16,7 @@ const ComentarioSchema = new mongoose.Schema({
     },
     respuesta: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Publicaciones',
-        require: true
+        ref: 'Comentarios'
     }
 }, {collection: "Comentarios", timestamps: true});
 
@@ -30,4 +29,4 @@ ComentarioSchema.methods.publicData = () => {
     };
 };
 
-mongoose.model('Comentarios', ComentarioSchema);
+mongoose.model('Comentario', ComentarioSchema);

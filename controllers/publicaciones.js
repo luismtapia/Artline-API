@@ -11,7 +11,6 @@ function createPublicacion(req, res, next) {
 }
 
 function readPublicacion(req, res, next) {
-    console.log("entre");
     if(req.params.id){// paso un id y solo regresa la publicacion de ese id
         Publicacion.findById(req.params.id)
         .then(post => {res.send(post)})
@@ -48,9 +47,20 @@ function deletePublicacion(req, res, next) {
     }).catch(next);
 }
 
+function PublicacionesPORUsuario(req, res, next) {
+    let usuario = req.params.usuario;
+    Publicacion.aggregate([
+        {'$match': { 'idUsuario': usuario}}, 
+        {'$count': 'total'}
+    ])
+    .then(total => res.status(200).send(total))
+    .catch(next);
+}
+
 module.exports = {
     createPublicacion,
     readPublicacion,
     updatePublicacion,
-    deletePublicacion
+    deletePublicacion,
+    PublicacionesPORUsuario
 }
