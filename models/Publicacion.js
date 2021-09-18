@@ -3,28 +3,25 @@ const mongoose = require('mongoose');
 const PublicacionSchema = new mongoose.Schema({
     idUsuario: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Usuario',
+        ref: 'Usuarios',
         require: true
     },
     imagen: {
         type: String,
         require: true
     },
-    comentarios: {
-        type: String
-    },
-    likes: {
-        type: Int32Array
+    descripcion: {
+        type: String,
+        require: true
     }
 }, {collection: "Publicaciones", timestamps: true});
 
 PublicacionSchema.methods.publicData = () => {
     return {
         idUsuario: this.idUsuario,
-        imagen: this.imagen,
-        comentarios: this.comentarios,
-        likes: this.likes
+        descripcion: this.descripcion,
+        imagen: this.imagen
     };
 };
 
-mongoose.model('Mascota', PublicacionSchema);
+mongoose.model('Publicacion', PublicacionSchema);

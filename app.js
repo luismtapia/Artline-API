@@ -12,6 +12,7 @@ mongoose.set("debug", true);
 
 //importar los Schemas
 require('./models/Publicacion');
+require('./models/Comentario');
 
 //Configuración de Rutas
 app.use('/Artline', require('./routes'));
