@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 // Configuración de Mongoose
 const mongoose = require('mongoose');
 
-/* mongoose.connect(""); */
+mongoose.connect("mongodb+srv://db_artline:dbuserbedu@bedue10artline.hhsqn.mongodb.net/artline?retryWrites=true&w=majority");
 mongoose.set('debug', true);
 
 // Importar Modelos - Esquemas

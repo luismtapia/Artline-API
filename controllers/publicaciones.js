@@ -11,6 +11,7 @@ function createPublicacion(req, res, next) {
 }
 
 function readPublicacion(req, res, next) {
+    console.log("entre");
     if(req.params.id){// paso un id y solo regresa la publicacion de ese id
         Publicacion.findById(req.params.id)
         .then(post => {res.send(post)})
@@ -23,13 +24,27 @@ function readPublicacion(req, res, next) {
 }
 
 function updatePublicacion(req, res, next) {
-    res.send('Actualiza una Publicación');
+    Publicacion.findById(req.params.id)
+    .then(post => {
+        if(!post){ return res.sendStatus(401);}
+        let nuevapublicacion = req.body;
+        if(typeof nuevapublicacion.idUsuario !== 'undefined')
+            post.idUsuario = nuevapublicacion.idUsuario;
+        if(typeof nuevapublicacion.imagen !== 'undefined')
+            post.imagen = nuevapublicacion.imagen;
+        if(typeof nuevapublicacion.descripcion !== 'undefined')
+            post.descripcion = nuevapublicacion.descripcion;
+        post.save()
+            .then(postupdated => res.status(200).json(postupdated.publicData))
+            .catch(next);
+    })
+    .catch(next);
 }
 
 function deletePublicacion(req, res, next) {
     Publicacion.findOneAndDelete({_id: req.params.id})
     .then(r => {
-        res.status(200).send(`Elimina una Publicación con id ${req.params.id}`);
+        res.status(200).send(`La publicacion ${r.descripcion} ha sido eliminada`);
     }).catch(next);
 }
 

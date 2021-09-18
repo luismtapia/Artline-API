@@ -19,8 +19,8 @@ const PublicacionSchema = new mongoose.Schema({
 PublicacionSchema.methods.publicData = () => {
     return {
         idUsuario: this.idUsuario,
-        descripcion: this.descripcion,
-        imagen: this.imagen
+        imagen: this.imagen,
+        descripcion: this.descripcion
     };
 };
 
