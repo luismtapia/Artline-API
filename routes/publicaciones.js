@@ -5,12 +5,14 @@ const {
     readPublicacion,
     updatePublicacion,
     deletePublicacion,
-    PublicacionesPORUsuario
+    PublicacionesPORUsuario,
+    TotalPublicacionesPORUsuario
 } = require('../controllers/publicaciones');
 
 // Métodos (verbos)
 router.post('/', createPublicacion);
 router.get('/postBYusuarios/:usuario', PublicacionesPORUsuario);
+router.get('/totalpostBYusuarios/:usuario', TotalPublicacionesPORUsuario);
 router.get('/:id', readPublicacion);
 router.get('/', readPublicacion);
 router.put('/:id', updatePublicacion);

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
+
 const Publicacion = mongoose.model("Publicacion");
 
 // CRUD para Publicacion
@@ -50,11 +52,29 @@ function deletePublicacion(req, res, next) {
 function PublicacionesPORUsuario(req, res, next) {
     let usuario = req.params.usuario;
     Publicacion.aggregate([
-        {'$match': { 'idUsuario': usuario}}, 
-        {'$count': 'total'}
-    ])
-    .then(total => res.status(200).send(total))
+        {
+          '$match': {
+            'idUsuario': new ObjectId(usuario)
+          }
+        }
+      ])
+    .then(r => res.status(200).send(r))
     .catch(next);
+}
+
+function TotalPublicacionesPORUsuario(req, res, next) {
+    const usuario = req.params.usuario;
+    Publicacion.aggregate([
+        {
+          '$match': {
+            'idUsuario': new ObjectId('61454a0ebbdada3a026e8333')
+          }
+        }, {
+          '$count': 'total'
+        }
+      ])
+      .then(r => res.status(200).send(r))
+      .catch(next);
 }
 
 module.exports = {
@@ -62,5 +82,6 @@ module.exports = {
     readPublicacion,
     updatePublicacion,
     deletePublicacion,
-    PublicacionesPORUsuario
+    PublicacionesPORUsuario,
+    TotalPublicacionesPORUsuario
 }

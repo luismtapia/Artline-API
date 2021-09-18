@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { ObjectId } = require('mongodb');
 const Comentario = mongoose.model("Comentario");
 
 // CRUD para Comentario
@@ -29,6 +30,8 @@ function updateComentario(req, res, next) {
         let nuevoComentario = req.body;
         if(typeof nuevoComentario.idUsuario !== 'undefined')
             comment.idUsuario = nuevoComentario.idUsuario;
+        if(typeof nuevoComentario.idPublicacion !== 'undefined')
+            comment.idPublicacion = nuevoComentario.idPublicacion;
         if(typeof nuevoComentario.texto !== 'undefined')
             comment.texto = nuevoComentario.texto;
         if(typeof nuevoComentario.attachment !== 'undefined')
@@ -49,9 +52,64 @@ function deleteComentario(req, res, next) {
     }).catch(next);
 }
 
+function ComentariosPORUsuario(req, res, next) {
+    let usuario = req.params.usuario;
+    Comentario.aggregate([
+        {
+          '$match': {
+            'idUsuario': new ObjectId(usuario)
+          }
+        }
+      ])
+    .then(comment => res.status(200).send(comment))
+    .catch(next);
+}
+
+function ComentariosPORPublicacion(req, res, next) {
+    let post = req.params.publicacion;
+    Comentario.aggregate([
+        {
+          '$match': {
+            'idPublicacion': new ObjectId(post)
+          }
+        }
+      ])
+    .then(comment => res.status(200).send(comment))
+    .catch(next);
+}
+
+function ComentariosPORattachment(req, res, next) {
+    let attachment = req.params.attachment;
+    Comentario.aggregate([
+        {
+          '$match': {
+            'attachment': attachment
+          }
+        }
+      ])
+    .then(comment => res.status(200).send(comment))
+    .catch(next);
+}
+
+function ComentariosRespuesta(req, res, next) {
+    let respuesta = req.params.respuesta;
+    Comentario.aggregate([
+        {
+          '$match': {
+            'respuesta': new ObjectId(respuesta)
+          }
+        }
+      ])
+    .then(comment => res.status(200).send(comment))
+    .catch(next);
+}
+
 module.exports = {
     createComentario,
     readComentario,
     updateComentario,
-    deleteComentario
+    deleteComentario,
+    ComentariosPORUsuario,
+    ComentariosPORPublicacion,
+    ComentariosRespuesta
 }
