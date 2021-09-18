@@ -10,11 +10,13 @@ app.use(bodyParser.json());
 // Configuración de Mongoose
 const mongoose = require('mongoose');
 
-/* mongoose.connect(""); */
+mongoose.connect("mongodb+srv://db_artline:dbuserbedu@bedue10artline.hhsqn.mongodb.net/artline?retryWrites=true&w=majority");
 mongoose.set('debug', true);
 
-// Modelos - Esquemas
+// Importar Modelos - Esquemas
 require('./models/Usuario');
+require('./models/Publicacion');
+require('./models/Comentario');
 
 // Configuración de Rutas
 app.use('/Artline', require('./routes'));
