@@ -6,6 +6,11 @@ const ComentarioSchema = new mongoose.Schema({
         ref: 'Usuarios',
         require: true
     },
+    idPublicacion: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Publicaciones',
+        require: true
+    },
     texto: {
         type: String,
         require: true
@@ -23,6 +28,7 @@ const ComentarioSchema = new mongoose.Schema({
 ComentarioSchema.methods.publicData = () => {
     return {
         idUsuario: this.idUsuario,
+        idPublicacion: this.idPublicacion,
         texto: this.texto,
         attachment: this.attachment,
         respuesta: this.respuesta

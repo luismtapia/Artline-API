@@ -4,11 +4,17 @@ const {
     createComentario,
     readComentario,
     updateComentario,
-    deleteComentario
+    deleteComentario,
+    ComentariosPORUsuario,
+    ComentariosPORPublicacion,
+    ComentariosRespuesta
 } = require('../controllers/comentarios');
 
 // Métodos (verbos)
 router.post('/', createComentario);
+router.get('/comentariosBYusuario/:usuario', ComentariosPORUsuario);
+router.get('/comentariosBYpublicacion/:publicacion', ComentariosPORPublicacion);
+router.get('/comentariosBYrespuesta/:respuesta', ComentariosRespuesta);
 router.get('/:id', readComentario);
 router.get('/', readComentario);
 router.put('/:id', updateComentario);
