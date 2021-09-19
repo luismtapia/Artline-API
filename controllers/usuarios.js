@@ -4,7 +4,9 @@ const Usuario = mongoose.model("Usuario");
 // CRUD para Usuario
 function createUsuario(req, res, next) {
   const usuario = new Usuario(req.body);
-  usuario.save().then(user => res.status(200).send(user)).catch(next);
+  usuario.save()
+    .then((user) => res.status(200).send(user))
+    .catch(next);
 }
 
 function readUsuario(req, res) {
@@ -12,11 +14,40 @@ function readUsuario(req, res) {
   res.status(200).send(usuarioID);
 }
 
-function updateUsuario(req, res) {
-  const usuario = new Usuario(req.params.id);
-  const modificaciones = req.body;
-  usuario = { ...usuario, ...modificaciones };
-  res.send(usuario);
+function updateUsuario(req, res, next) {
+  Usuario.findById(req.params.id)
+    .then((user) => {
+      if (!user) return res.status(404);
+
+      let nuevaInfo = req.body;
+
+      if (typeof nuevaInfo.password !== "undefined") {
+        user.password = nuevaInfo.password;
+      }
+
+      if (typeof nuevaInfo.nombre !== "undefined") {
+        user.nombre = nuevaInfo.nombre;
+      }
+
+      if (typeof nuevaInfo.followercount !== "undefined") {
+        user.followercount = nuevaInfo.followercount;
+      }
+
+      if (typeof nuevaInfo.bio !== "undefined") {
+        user.bio = nuevaInfo.bio;
+      }
+
+      if (typeof nuevaInfo.likes !== "undefined") {
+        user.likes = nuevaInfo.likes;
+      }
+
+      user.save()
+        .then((updated) => {
+          res.status(201).json(updated.publicData());
+        })
+        .catch(next);
+    })
+    .catch(next);
 }
 
 function deleteUsuario(req, res) {
