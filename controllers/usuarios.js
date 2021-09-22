@@ -79,8 +79,17 @@ function readTodosUsuarios(req, res, next) {
     .catch(next)
 }
 
-function readTopUsuarios(req, res) {
-  res.status(200).send("Aquí puedes ver el Top 10 de usuarios de artline");
+function readTopUsuarios(req, res, next) {
+  Usuario.find().sort({'followercount': -1}).limit(10)
+    .then(usuarios =>{
+      if (!usuarios) return res.status(404);
+      let resultado= []
+      usuarios.forEach(usuario=>{
+        resultado.push(usuario.publicData())
+      })
+      return res.json(resultado);
+    })
+    .catch(next)
 }
 
 module.exports = {
