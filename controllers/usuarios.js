@@ -66,12 +66,30 @@ function readIdUsuario(req, res) {
   res.status(200).send("Mira el ID del  artista :o");
 }
 
-function readTodosUsuarios(req, res) {
-  res.status(200).send("Aquí puedes ver todos lo usuarios de artline");
+function readTodosUsuarios(req, res, next) {
+  Usuario.find()
+    .then(usuarios =>{
+      if (!usuarios) return res.status(404);
+      let resultado= []
+      usuarios.forEach(usuario=>{
+        resultado.push(usuario.publicData())
+      })
+      return res.json(resultado);
+    })
+    .catch(next)
 }
 
-function readTopUsuarios(req, res) {
-  res.status(200).send("Aquí puedes ver el Top 10 de usuarios de artline");
+function readTopUsuarios(req, res, next) {
+  Usuario.find().sort({'followercount': -1}).limit(10)
+    .then(usuarios =>{
+      if (!usuarios) return res.status(404);
+      let resultado= []
+      usuarios.forEach(usuario=>{
+        resultado.push(usuario.publicData())
+      })
+      return res.json(resultado);
+    })
+    .catch(next)
 }
 
 module.exports = {
