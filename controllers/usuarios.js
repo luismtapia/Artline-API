@@ -54,9 +54,25 @@ function deleteUsuario(req, res) {
   res.status(200).send("El usuario ${req.params.id} se eliminó.");
 }
 
-function readAtributosUsuario(req, res) {
-  res.status(200).send("Mira los atributos  del  artista :o");
+function readAtributosUsuario(req, res, next) {
+  let atr = req.body.atr;
+  let data;
+  if (typeof(req.body.data) === 'string') 
+  { data = new RegExp(req.body.data, 'i'); }
+  else {  data = req.body.data }
+
+  Usuario.find({ [atr]: data })
+    .then(usuarios => {
+      if (!usuarios) return res.status(404);
+      let resultado = []
+      usuarios.forEach(usuario => {
+        resultado.push(usuario.publicData())
+      })
+      return res.json(resultado);
+    })
+    .catch(next)
 }
+
 
 function readParametrosUsuario(req, res) {
   res.status(200).send("Mira los parametros  del  artista :o");
@@ -68,10 +84,10 @@ function readIdUsuario(req, res) {
 
 function readTodosUsuarios(req, res, next) {
   Usuario.find()
-    .then(usuarios =>{
+    .then(usuarios => {
       if (!usuarios) return res.status(404);
-      let resultado= []
-      usuarios.forEach(usuario=>{
+      let resultado = []
+      usuarios.forEach(usuario => {
         resultado.push(usuario.publicData())
       })
       return res.json(resultado);
@@ -80,11 +96,11 @@ function readTodosUsuarios(req, res, next) {
 }
 
 function readTopUsuarios(req, res, next) {
-  Usuario.find().sort({'followercount': -1}).limit(10)
-    .then(usuarios =>{
+  Usuario.find().sort({ 'followercount': -1 }).limit(10)
+    .then(usuarios => {
       if (!usuarios) return res.status(404);
-      let resultado= []
-      usuarios.forEach(usuario=>{
+      let resultado = []
+      usuarios.forEach(usuario => {
         resultado.push(usuario.publicData())
       })
       return res.json(resultado);
