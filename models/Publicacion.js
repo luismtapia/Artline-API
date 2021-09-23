@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+// Esquema de Publicacion: ligada a un usuario quien la realiza, una imagen y una descripcion que acompaña
 const PublicacionSchema = new mongoose.Schema({
     idUsuario: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,9 +16,10 @@ const PublicacionSchema = new mongoose.Schema({
     }
 }, {collection: "Publicaciones", timestamps: true});
 
-PublicacionSchema.methods.publicData = () => {
+// Los campos a mostrar seran imagen y descripcion; ya que _id y idUsuario se sobreentinde que sera el que la esta solicitando
+PublicacionSchema.methods.publicData = function() {
     return {
-        idUsuario: this.idUsuario,
+        /*idUsuario: this.idUsuario,*/
         imagen: this.imagen,
         descripcion: this.descripcion
     };

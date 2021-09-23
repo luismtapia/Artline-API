@@ -11,8 +11,8 @@ const {
 
 // Métodos (verbos)
 router.post('/', createPublicacion);
-router.get('/postBYusuarios/:usuario', PublicacionesPORUsuario);
-router.get('/totalpostBYusuarios/:usuario', TotalPublicacionesPORUsuario);
+router.get('/postBYusuario/:usuario', PublicacionesPORUsuario);
+router.get('/totalpostBYusuario/:usuario', TotalPublicacionesPORUsuario);
 router.get('/:id', readPublicacion);
 router.get('/', readPublicacion);
 router.put('/:id', updatePublicacion);
