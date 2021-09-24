@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Esquema de comentarios: hecho por un usuario a una determinada publicacion o en replica a algun otro comentario, con opcion de pinear comentarios
 const ComentarioSchema = new mongoose.Schema({
     idUsuario: {
         type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +18,8 @@ const ComentarioSchema = new mongoose.Schema({
     },
     attachment: {
         type: Boolean,
-        require: true
+        default: false,
+        require: true //se puede eliminar el requerido porque default sera false
     },
     respuesta: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +27,8 @@ const ComentarioSchema = new mongoose.Schema({
     }
 }, {collection: "Comentarios", timestamps: true});
 
-ComentarioSchema.methods.publicData = () => {
+
+ComentarioSchema.methods.publicData = function() {
     return {
         idUsuario: this.idUsuario,
         idPublicacion: this.idPublicacion,
