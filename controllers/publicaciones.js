@@ -71,7 +71,7 @@ function TotalPublicacionesPORUsuario(req, res, next) {
     Publicacion.aggregate([
         {
             '$match': {
-                'idUsuario': new ObjectId('61454a0ebbdada3a026e8333')
+                'idUsuario': new ObjectId(usuario)
             }
         }, {
             '$count': 'total'
