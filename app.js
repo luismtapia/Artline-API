@@ -10,7 +10,9 @@ app.use(bodyParser.json());
 // Configuración de Mongoose
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://db_artline:dbuserbedu@bedue10artline.hhsqn.mongodb.net/artline?retryWrites=true&w=majority");
+mongoose.connect(process.env.MONGO_URI, // obtiene la url de conexión desde las variables de entorno
+    { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
+);
 mongoose.set('debug', true);
 
 // Importar Modelos - Esquemas
@@ -22,7 +24,7 @@ require('./config/passport');
 // Configuración de Rutas
 app.use('/Artline', require('./routes'));
 
-const PORT = 4001;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
+//const PORT = 4001;
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);
 });

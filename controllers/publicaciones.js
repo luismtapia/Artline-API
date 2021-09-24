@@ -7,39 +7,43 @@ const Publicacion = mongoose.model("Publicacion");
 function createPublicacion(req, res, next) {
     const publicacion = new Publicacion(req.body);
     publicacion.save()
-        .then(post => {
-            res.status(200).send(post);
-        }).catch(next);
+    .then(post => {
+        res.status(200).json(post.publicData());
+    }).catch(next);
 }
 
 function readPublicacion(req, res, next) {
     if (req.params.id) {// paso un id y solo regresa la publicacion de ese id
         Publicacion.findById(req.params.id)
-            .then(post => { res.send(post) })
-            .catch(next);
-    } else {
-        Publicacion.find()
-            .then(post => res.send(post))
-            .catch(next);
+        .then(post => {
+            res.status(200).json(post.publicData());
+        })
+        .catch(next);
+    }else{
+        Publicacion.find({},{imagen: 1, descripcion: 1})
+        .then(post => {
+            res.status(200).send(post);
+        })
+        .catch(next);
     }
 }
 
 function updatePublicacion(req, res, next) {
     Publicacion.findById(req.params.id)
-        .then(post => {
-            if (!post) { return res.sendStatus(401); }
-            let nuevapublicacion = req.body;
-            if (typeof nuevapublicacion.idUsuario !== 'undefined')
-                post.idUsuario = nuevapublicacion.idUsuario;
-            if (typeof nuevapublicacion.imagen !== 'undefined')
-                post.imagen = nuevapublicacion.imagen;
-            if (typeof nuevapublicacion.descripcion !== 'undefined')
-                post.descripcion = nuevapublicacion.descripcion;
-            post.save()
-                .then(postupdated => res.status(200).json(postupdated.publicData))
-                .catch(next);
-        })
-        .catch(next);
+    .then(post => {
+        if(!post){ return res.sendStatus(401);}
+        let nuevapublicacion = req.body;
+        if(typeof nuevapublicacion.idUsuario !== 'undefined')
+            post.idUsuario = nuevapublicacion.idUsuario;
+        if(typeof nuevapublicacion.imagen !== 'undefined')
+            post.imagen = nuevapublicacion.imagen;
+        if(typeof nuevapublicacion.descripcion !== 'undefined')
+            post.descripcion = nuevapublicacion.descripcion;
+        post.save()
+            .then(postupdated => res.status(200).json(postupdated.publicData()))
+            .catch(next);
+    })
+    .catch(next);
 }
 
 function deletePublicacion(req, res, next) {
