@@ -106,7 +106,7 @@ function readAtributosPublicacion(req, res, next) {
 }
 function readNumPublicaciones(req, res, next) {
     const idUsuario = req.params.idUsuario;
-    let num = req.body.num;
+    let num = parseInt(req.params.num);
     Publicacion.find({idUsuario:idUsuario}).limit(num)
         .then(publicaciones => {
             if (!publicaciones) return res.status(404);
