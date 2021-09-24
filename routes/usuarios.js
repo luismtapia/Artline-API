@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const auth = require('./auth');
 
 const {
     createUsuario,
@@ -9,7 +10,8 @@ const {
     readParametrosUsuario,
     readTodosUsuarios,
     readTopUsuarios,
-    readIdUsuario
+    readIdUsuario,
+    loginSession
 
 } = require('../controllers/usuarios');
 
@@ -20,7 +22,8 @@ router.get('/atributos', readAtributosUsuario);
 router.get('/params', readParametrosUsuario);
 router.get('/:id', readIdUsuario);
 router.post('/', createUsuario);
-router.put('/:id', updateUsuario);
+router.post('/entrar', loginSession);
+router.put('/:id', auth.requerido, updateUsuario);
 router.delete('/:id', deleteUsuario);
 
 
