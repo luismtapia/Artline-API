@@ -15,7 +15,7 @@ const {
 router.post('/', createPublicacion);
 router.get('/postBYusuario/:usuario', PublicacionesPORUsuario);
 router.get('/totalpostBYusuario/:usuario', TotalPublicacionesPORUsuario);
-router.get('/numPublicaciones/:idUsuario', readNumPublicaciones);
+router.get('/numPublicaciones/:idUsuario/:num', readNumPublicaciones);
 router.get('/atributos/', readAtributosPublicacion);
 router.get('/:id', readPublicacion);
 router.get('/', readPublicacion);
