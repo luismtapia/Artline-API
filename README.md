@@ -15,8 +15,13 @@ Para información más detallada puedes acceder al apartado [Flujo de trabajo](h
 ## Descripción técnica :computer:
 Para el desarrollo de esta API se está haciendo uso de Node.js y MongoDB.
 Para información más detallada sobre la estructura de carpetas/archivos y la forma de correr el proyecto puedes acceder al apartado [Flujo de trabajo](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo) en la Wiki.
-### Uso
+### Uso Local
 ![preview uso](assets/usage.gif)
+_clonando el repositorio para ejecutar un servidor local_
+
+### Uso Remoto
+**Aqui va video**
+_puedes consumir la API desde heroku en el siguiente **link ... aquí va link** la documentación de uso la encuentras en **swagger ... aquí va link**_
 
 ## Toda la documentación se encuentra en la Wiki :book:
 
