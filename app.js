@@ -17,6 +17,7 @@ mongoose.set('debug', true);
 require('./models/Usuario');
 require('./models/Publicacion');
 require('./models/Comentario');
+require('./config/passport');
 
 // Configuración de Rutas
 app.use('/Artline', require('./routes'));

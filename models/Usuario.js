@@ -1,4 +1,4 @@
-// Clase para los usuarios, 
+// Clase para los usuarios,
 /* class Usuario{
     constructor(id, idUsuario, password, nombre, followercount, bio, postcount, likes){
         this.id = id;
@@ -14,25 +14,72 @@
 module.exports = Usuario; */
 
 // Definición del Modelo Usuario
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+const secret = require("../config").secret;
 
-const UsuarioSchema = new mongoose.Schema({
-    password: {type: String, required: true}, // JWT - Passport
-    nombre: {type: String, required: true},
+const UsuarioSchema = new mongoose.Schema(
+  {
+    nombre: { type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
-    bio: {type: String, required: true},
+    bio: { type: String, required: true },
     postcount: Number, // Número de posts - Aggregate
-    likes: Number
-}, {collection: "Usuarios", timestamps: true, versionKey: false});
+    likes: Number,
+    hash: String,
+    salt: String,
+  },
+  { collection: "Usuarios", timestamps: true, versionKey: false }
+);
+
+UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese nombre." });
 
 UsuarioSchema.methods.publicData = function () {
-    return {
-        id: this.id,
-        nombre: this.nombre,
-        followercount: this.followercount,
-        bio: this.bio,
-        likes: this.likes 
-    }
-}
+  return {
+    id: this._id,
+    nombre: this.nombre,
+    followercount: this.followercount,
+    bio: this.bio,
+    likes: this.likes,
+  };
+};
+
+UsuarioSchema.methods.crearPassword = function (password) {
+  this.salt = crypto.randomBytes(16).toString("hex");
+  this.hash = crypto
+    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+    .toString("hex");
+};
+
+UsuarioSchema.methods.validarPassword = function (password) {
+  const newHash = crypto
+    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
+    .toString("hex");
+  return this.hash === newHash;
+};
+
+UsuarioSchema.methods.generaJWT = function () {
+  const today = new Date();
+  const exp = new Date(today);
+  exp.setDate(today.getDate() + 60);
+
+  return jwt.sign(
+    {
+      id: this._id,
+      nombre: this.nombre,
+      exp: parseInt(exp.getTime() / 1000),
+    },
+    secret
+  );
+};
+
+UsuarioSchema.methods.toAuthJSON = function () {
+  return {
+    id: this._id,
+    nombre: this.nombre,
+    token: this.generaJWT()
+  };
+};
 
 mongoose.model("Usuario", UsuarioSchema);
