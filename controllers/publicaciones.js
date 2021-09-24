@@ -94,6 +94,20 @@ function readAtributosPublicacion(req, res, next) {
             .catch(next)
     } else { res.send("Atributo no valido."); }
 }
+function readNumPublicaciones(req, res, next) {
+    const idUsuario = req.params.idUsuario;
+    let num = req.body.num;
+    Publicacion.find({idUsuario:idUsuario}).limit(num)
+        .then(publicaciones => {
+            if (!publicaciones) return res.status(404);
+            let resultado = []
+            publicaciones.forEach(publicacion => {
+                resultado.push(publicacion.publicData())
+            })
+            return res.json(resultado);
+        })
+        .catch(next)
+}
 
 module.exports = {
     createPublicacion,
@@ -102,5 +116,6 @@ module.exports = {
     deletePublicacion,
     PublicacionesPORUsuario,
     TotalPublicacionesPORUsuario,
-    readAtributosPublicacion
+    readAtributosPublicacion,
+    readNumPublicaciones
 }
