@@ -1,11 +1,19 @@
 const mongoose = require("mongoose");
 const Usuario = mongoose.model("Usuario");
+const passport = require('passport');
 
 // CRUD para Usuario
 function createUsuario(req, res, next) {
-  const usuario = new Usuario(req.body);
+  const body = req.body;
+  const password = body.password;
+
+  delete body.password;
+
+  const usuario = new Usuario(body);
+
+  usuario.crearPassword(password);
   usuario.save()
-    .then((user) => res.status(200).send(user))
+    .then(user => res.status(200).json(user.toAuthJSON()))
     .catch(next);
 }
 
@@ -15,14 +23,14 @@ function readUsuario(req, res) {
 }
 
 function updateUsuario(req, res, next) {
-  Usuario.findById(req.params.id)
+  Usuario.findById(req.usuario.id)
     .then((user) => {
-      if (!user) return res.status(404);
+      if (!user) return res.sendStatus(401);
 
       let nuevaInfo = req.body;
 
       if (typeof nuevaInfo.password !== "undefined") {
-        user.password = nuevaInfo.password;
+        user.crearPassword(nuevaInfo.password);
       }
 
       if (typeof nuevaInfo.nombre !== "undefined") {
@@ -57,20 +65,25 @@ function deleteUsuario(req, res) {
 function readAtributosUsuario(req, res, next) {
   let atr = req.body.atr;
   let data;
-  if (typeof(req.body.data) === 'string') 
-  { data = new RegExp(req.body.data, 'i'); }
-  else {  data = req.body.data }
-
-  Usuario.find({ [atr]: data })
-    .then(usuarios => {
-      if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
+  if (typeof (req.body.data) === 'string') { data = new RegExp(req.body.data, 'i'); }
+  else { data = req.body.data }
+  if (atr == "id" ||
+    atr == "nombre" ||
+    atr == "followercount" ||
+    atr == "bio" ||
+    atr == "likes") {
+    Usuario.find({ [atr]: data })
+      .then(usuarios => {
+        if (!usuarios) return res.status(404);
+        let resultado = []
+        usuarios.forEach(usuario => {
+          resultado.push(usuario.publicData())
+        })
+        return res.json(resultado);
       })
-      return res.json(resultado);
-    })
-    .catch(next)
+      .catch(next)
+  } else { res.send("Atributo no valido."); }
+
 }
 
 
@@ -108,6 +121,24 @@ function readTopUsuarios(req, res, next) {
     .catch(next)
 }
 
+function loginSession(req, res, next){
+  if(!req.body.nombre || !req.body.password){
+    return res.status(422).json({error: {nombre : 'Falta información'}});
+  }
+
+  passport.authenticate('local', { session: false}, 
+  function (err, user, info){
+    if(err) return next(err);
+    if(user){
+      user.token = user.generaJWT();
+    } else {
+      return res.status(422).json(info);
+    }
+  })(req, res, next)
+}
+
+
+
 module.exports = {
   createUsuario,
   readUsuario,
@@ -118,4 +149,5 @@ module.exports = {
   readIdUsuario,
   readTodosUsuarios,
   readTopUsuarios,
+  loginSession
 };
