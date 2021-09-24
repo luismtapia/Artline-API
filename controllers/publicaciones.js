@@ -8,18 +8,22 @@ function createPublicacion(req, res, next) {
     const publicacion = new Publicacion(req.body);
     publicacion.save()
     .then(post => {
-        res.status(200).send(post);
+        res.status(200).json(post.publicData());
     }).catch(next);
 }
 
 function readPublicacion(req, res, next) {
     if(req.params.id){// paso un id y solo regresa la publicacion de ese id
         Publicacion.findById(req.params.id)
-        .then(post => {res.send(post)})
+        .then(post => {
+            res.status(200).json(post.publicData());
+        })
         .catch(next);
     }else{
-        Publicacion.find()
-        .then(post => res.send(post))
+        Publicacion.find({},{imagen: 1, descripcion: 1})
+        .then(post => {
+            res.status(200).send(post);
+        })
         .catch(next);
     }
 }
@@ -36,7 +40,7 @@ function updatePublicacion(req, res, next) {
         if(typeof nuevapublicacion.descripcion !== 'undefined')
             post.descripcion = nuevapublicacion.descripcion;
         post.save()
-            .then(postupdated => res.status(200).json(postupdated.publicData))
+            .then(postupdated => res.status(200).json(postupdated.publicData()))
             .catch(next);
     })
     .catch(next);

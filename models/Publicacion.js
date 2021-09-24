@@ -14,15 +14,15 @@ const PublicacionSchema = new mongoose.Schema({
         type: String,
         require: true
     }
-}, {collection: "Publicaciones", timestamps: true});
+}, {collection: "Publicaciones", timestamps: true, versionKey: false});
 
 // Los campos a mostrar seran imagen y descripcion; ya que _id y idUsuario se sobreentinde que sera el que la esta solicitando
-PublicacionSchema.methods.publicData = function() {
+PublicacionSchema.methods.publicData = function () {
     return {
-        /*idUsuario: this.idUsuario,*/
+        id: this.id,
         imagen: this.imagen,
         descripcion: this.descripcion
-    };
+    }
 };
 
 mongoose.model('Publicacion', PublicacionSchema);

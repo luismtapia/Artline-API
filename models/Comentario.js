@@ -25,7 +25,7 @@ const ComentarioSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comentarios'
     }
-}, {collection: "Comentarios", timestamps: true});
+}, {collection: "Comentarios", timestamps: true, versionKey: false});
 
 
 ComentarioSchema.methods.publicData = function() {
