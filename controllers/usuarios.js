@@ -57,20 +57,25 @@ function deleteUsuario(req, res) {
 function readAtributosUsuario(req, res, next) {
   let atr = req.body.atr;
   let data;
-  if (typeof(req.body.data) === 'string') 
-  { data = new RegExp(req.body.data, 'i'); }
-  else {  data = req.body.data }
-
-  Usuario.find({ [atr]: data })
-    .then(usuarios => {
-      if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
+  if (typeof (req.body.data) === 'string') { data = new RegExp(req.body.data, 'i'); }
+  else { data = req.body.data }
+  if (atr == "id" ||
+    atr == "nombre" ||
+    atr == "followercount" ||
+    atr == "bio" ||
+    atr == "likes") {
+    Usuario.find({ [atr]: data })
+      .then(usuarios => {
+        if (!usuarios) return res.status(404);
+        let resultado = []
+        usuarios.forEach(usuario => {
+          resultado.push(usuario.publicData())
+        })
+        return res.json(resultado);
       })
-      return res.json(resultado);
-    })
-    .catch(next)
+      .catch(next)
+  } else { res.send("Atributo no valido."); }
+
 }
 
 
