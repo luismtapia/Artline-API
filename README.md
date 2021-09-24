@@ -21,7 +21,9 @@ _clonando el repositorio para ejecutar un servidor local_
 
 ### Uso Remoto
 **Aqui va video**
-_puedes consumir la API desde heroku en el siguiente **link ... aquí va link** la documentación de uso la encuentras en **swagger ... aquí va link**_
+
+_puedes consumir la API desde heroku en el siguiente [link](https://artline-team10.herokuapp.com/artline) base y la documentación de uso la encuentras en [swagger](https://app.swaggerhub.com/apis-docs/Bedu/artline/1.0.0) o támbien la documentacion generada en postman ..._
+
 
 ## Toda la documentación se encuentra en la Wiki :book:
 
