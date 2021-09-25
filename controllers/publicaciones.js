@@ -60,7 +60,13 @@ function PublicacionesPORUsuario(req, res, next) {
             '$match': {
                 'idUsuario': new ObjectId(usuario)
             }
-        }
+        }, {
+            '$project': {
+              'idUsuario': 1, 
+              'imagen': 1, 
+              'descripcion': 1
+            }
+          }
     ])
         .then(r => res.status(200).send(r))
         .catch(next);
