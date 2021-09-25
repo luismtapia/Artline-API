@@ -33,8 +33,8 @@ function updateUsuario(req, res, next) {
         user.crearPassword(nuevaInfo.password);
       }
 
-      if (typeof nuevaInfo.username !== "undefined") {
-        user.username = nuevaInfo.username;
+      if (typeof nuevaInfo.nombre !== "undefined") {
+        user.nombre = nuevaInfo.nombre;
       }
 
       if (typeof nuevaInfo.followercount !== "undefined") {
@@ -73,6 +73,8 @@ function readAtributosUsuario(req, res, next) {
   else { data = req.body.data }
   if (atr == "id" ||
     atr == "username" ||
+    atr == "nombre" ||
+    atr == "email" ||
     atr == "followercount" ||
     atr == "bio" ||
     atr == "likes") {
@@ -86,7 +88,7 @@ function readAtributosUsuario(req, res, next) {
         return res.json(resultado);
       })
       .catch(next)
-  } else { res.send("Atributo no valido."); }
+  } else { res.send("Atributo no válido."); }
 
 }
 
