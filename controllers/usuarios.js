@@ -17,11 +17,6 @@ function createUsuario(req, res, next) {
     .catch(next);
 }
 
-function readUsuario(req, res) {
-  const usuarioID = new Usuario(req.params.id);
-  res.status(200).send(usuarioID);
-}
-
 function updateUsuario(req, res, next) {
   Usuario.findById(req.usuario.id)
     .then((user) => {
