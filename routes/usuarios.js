@@ -19,7 +19,7 @@ router.get('/', readUsuario);
 router.get('/todosUsuarios',readTodosUsuarios);
 router.get('/topUsuarios',readTopUsuarios);
 router.get('/atributos/', readAtributosUsuario);
-router.get('/params', readParametrosUsuario);
+router.get('/params/', readParametrosUsuario);
 router.get('/:id', readIdUsuario);
 router.post('/', createUsuario);
 router.post('/entrar', loginSession);
