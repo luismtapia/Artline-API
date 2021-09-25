@@ -94,16 +94,29 @@ function readAtributosUsuario(req, res, next) {
 
 
 function readParametrosUsuario(req, res) {
-  Usuario.find({ }).select(req.body)
-    .then(usuarios => {
-      if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
+  let atr = req.body.atr;
+  let data;
+  if (typeof (req.body.data) === 'string') { data = new RegExp(req.body.data, 'i'); }
+  else { data = req.body.data }
+  if (atr == "id" ||
+    atr == "username" ||
+    atr == "nombre" ||
+    atr == "email" ||
+    atr == "followercount" ||
+    atr == "bio" ||
+    atr == "likes") {
+    Usuario.find({ [atr]: data })
+      .then(usuarios => {
+        if (!usuarios) return res.status(404);
+        let resultado = []
+        usuarios.forEach(usuario => {
+          resultado.push(usuario.publicData())
+        })
+        return res.json(resultado);
       })
-      return res.json(resultado);
-    })
-    .catch(next)
+      .catch(next)
+  } else { res.send("Atributo no válido."); }
+
 }
 
 
