@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
-
 const Publicacion = mongoose.model("Publicacion");
+
+// imports para poblar BD
+const Usuario = mongoose.model("Usuario");
+const {imagenes,descripciones} = require('../config/variablesBD');
 
 // CRUD para Publicacion
 function createPublicacion(req, res, next) {
@@ -53,6 +56,7 @@ function deletePublicacion(req, res, next) {
         }).catch(next);
 }
 
+// Endpoints
 function PublicacionesPORUsuario(req, res, next) {
     let usuario = req.params.usuario;
     Publicacion.aggregate([
@@ -133,7 +137,31 @@ function readNumPublicaciones(req, res, next) {
         .catch(next)
 }
 
+// Codigo para poblar la Base de Datos
+async function poblar(req, res, next) {
+    const registros = req.params.registros;
+    const usuarios = await Usuario.aggregate([{'$count': 'total_usuarios'}]);
+
+    const aleatorio = max => Math.floor(Math.random()*max);
+    let total_usuarios=usuarios[0].total_usuarios;
+
+    for (let index = 0; index < registros; index++) {
+        const idUser =  await Usuario.findOne().skip(aleatorio(total_usuarios));
+        let nuevapublicacion = new Publicacion ({
+            idUsuario : idUser._id,
+            imagen : imagenes[aleatorio(imagenes.length)],
+            descripcion : descripciones[aleatorio(descripciones.length)]
+        });
+        nuevapublicacion.save()
+        .then(post => {
+            res.status(200).send(`${registros} registros insertados correctamente`);
+        })
+        .catch(next);
+      } // fin for
+}
+
 module.exports = {
+    poblar,
     createPublicacion,
     readPublicacion,
     updatePublicacion,

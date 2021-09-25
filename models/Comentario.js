@@ -18,8 +18,7 @@ const ComentarioSchema = new mongoose.Schema({
     },
     attachment: {
         type: Boolean,
-        default: false,
-        require: true //se puede eliminar el requerido porque default sera false
+        default: false
     },
     respuesta: {
         type: mongoose.Schema.Types.ObjectId,

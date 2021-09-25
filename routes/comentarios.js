@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const {
+    poblar,
     createComentario,
     readComentario,
     updateComentario,
@@ -14,6 +15,7 @@ const {
 
 // Métodos (verbos)
 router.post('/', createComentario);
+router.get('/poblar/:registros', poblar);
 router.get('/comentariosBYusuario/:usuario', ComentariosPORUsuario);
 router.get('/comentariosBYpublicacion/:publicacion', ComentariosPORPublicacion);
 router.get('/comentariosBYrespuesta/:respuesta', ComentariosRespuesta);
