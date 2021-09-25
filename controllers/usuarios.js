@@ -58,8 +58,12 @@ function updateUsuario(req, res, next) {
     .catch(next);
 }
 
-function deleteUsuario(req, res) {
-  res.status(200).send("El usuario ${req.params.id} se eliminó.");
+function deleteUsuario(req, res, next) {
+  Usuario.findOneAndDelete({_id: req.usuario.id})
+  .then(r => {
+    res.status(200).send("Usuario eliminado")
+  })
+  .catch(next)
 }
 
 function readAtributosUsuario(req, res, next) {
@@ -91,9 +95,17 @@ function readParametrosUsuario(req, res) {
   res.status(200).send("Mira los parametros  del  artista :o");
 }
 
-function readIdUsuario(req, res) {
-  res.status(200).send("Mira el ID del  artista :o");
+
+function readIdUsuario(req, res, next) {
+  Usuario.findById(req.usuario.id)
+  .then(user => {
+    if(!user) {
+      return res.sendStatus(401)
+    }
+    return res.json(user.publicdata)
+  }).catch(err => res.send (err));
 }
+
 
 function readTodosUsuarios(req, res, next) {
   Usuario.find()
