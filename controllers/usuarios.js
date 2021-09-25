@@ -93,8 +93,9 @@ function readAtributosUsuario(req, res, next) {
 }
 
 
-function readParametrosUsuario(req, res) {
-  Usuario.find().select(req.body.data1 ,req.body.data2)
+function readParametrosUsuario(req, res, next) {
+
+  Usuario.find({}).select(`${req.body.data1} ${req.body.data2} ${req.body.data3} ${req.body.data4} ${req.body.data5} ${req.body.data6} ${req.body.data7} `)
     .then(usuarios => {
       if (!usuarios) return res.status(404);
       let resultado = []
@@ -105,8 +106,6 @@ function readParametrosUsuario(req, res) {
     })
     .catch(next)
 }
-
-
 function readIdUsuario(req, res, next) {
   Usuario.findById(req.usuario.id)
     .then(user => {

@@ -108,9 +108,9 @@ function readAtributosComentario(req, res, next) {
   let atr = req.body.atr;
   let data;
   if (atr == "idUsuario" || atr == "idPublicacion") {
-     data = mongoose.Types.ObjectId(req.body.data);
+    data = mongoose.Types.ObjectId(req.body.data);
   } else {
-     data = new RegExp(req.body.data, 'i');
+    data = new RegExp(req.body.data, 'i');
   }
 
   if (atr == "idUsuario" ||
@@ -130,6 +130,20 @@ function readAtributosComentario(req, res, next) {
       .catch(next)
   } else { res.send("Atributo no valido."); }
 }
+
+function readParametroscomentarios(req, res, next) {
+
+  Comentario.find({}).select(`${req.body.data1} ${req.body.data2} ${req.body.data3} ${req.body.data4} ${req.body.data5}`)
+    .then(comentarios => {
+      if (!comentarios) return res.status(404);
+      let comentario = []
+      comentarios.forEach(publicacion => {
+        comentario.push(publicacion.publicData())
+      })
+      return res.json(comentario);
+    })
+    .catch(next)
+}
 module.exports = {
   createComentario,
   readComentario,
@@ -138,5 +152,6 @@ module.exports = {
   ComentariosPORUsuario,
   ComentariosPORPublicacion,
   ComentariosRespuesta,
-  readAtributosComentario
+  readAtributosComentario,
+  readParametroscomentarios
 }
