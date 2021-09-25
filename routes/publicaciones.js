@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const {
+    poblar,
     createPublicacion,
     readPublicacion,
     updatePublicacion,
@@ -14,6 +15,7 @@ const {
 
 // Métodos (verbos)
 router.post('/', createPublicacion);
+router.get('/poblar/:registros', poblar);
 router.get('/postBYusuario/:usuario', PublicacionesPORUsuario);
 router.get('/totalpostBYusuario/:usuario', TotalPublicacionesPORUsuario);
 router.get('/numPublicaciones/:idUsuario/:num', readNumPublicaciones);
