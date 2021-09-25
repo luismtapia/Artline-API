@@ -3,7 +3,6 @@ const auth = require('./auth');
 
 const {
     createUsuario,
-    readUsuario,
     updateUsuario,
     deleteUsuario,
     readAtributosUsuario,
@@ -15,7 +14,6 @@ const {
 
 } = require('../controllers/usuarios');
 
-router.get('/', readUsuario);
 router.get('/todosUsuarios',readTodosUsuarios);
 router.get('/topUsuarios',readTopUsuarios);
 router.get('/atributos', readAtributosUsuario);
