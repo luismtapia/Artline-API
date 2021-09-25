@@ -54,7 +54,7 @@ function updateUsuario(req, res, next) {
 }
 
 function deleteUsuario(req, res, next) {
-  Usuario.findOneAndDelete({ _id: req.usuario.id })
+  Usuario.findOneAndDelete( req.params.id )
     .then(r => {
       res.status(200).send("Usuario eliminado")
     })
@@ -101,13 +101,14 @@ function readParametrosUsuario(req, res, next) {
     })
     .catch(next)
 }
-function readIdUsuario(req, res, next) {
-  Usuario.findById(req.usuario.id)
+
+function readIdUsuario(req, res) {
+  Usuario.findById(req.params.id)
     .then(user => {
       if (!user) {
         return res.sendStatus(401)
       }
-      return res.json(user.publicdata)
+      return res.json(user.publicData())
     }).catch(err => res.send(err));
 }
 
