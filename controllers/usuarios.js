@@ -148,7 +148,7 @@ function loginSession(req, res, next) {
       if (err) return next(err);
       if (user) {
         user.token = user.generaJWT();
-        return res.status(200).send(`¡Bienvenid@ a Artline, ${user.username}!`);
+        return res.status(200).send(`¡Bienvenid@ a Artline, ${user.nombre}!`);
       } else {
         return res.status(422).json(info);
       }
@@ -159,7 +159,6 @@ function loginSession(req, res, next) {
 
 module.exports = {
   createUsuario,
-  readUsuario,
   updateUsuario,
   deleteUsuario,
   readAtributosUsuario,
