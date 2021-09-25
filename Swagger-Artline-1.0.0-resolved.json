@@ -111,7 +111,7 @@
       "type": "object",
       "required": [
         "bio",
-        "nombre",
+        "username",
         "password"
       ],
       "properties": {
@@ -119,7 +119,7 @@
           "type": "string",
           "format": "password"
         },
-        "nombre": {
+        "username": {
           "type": "string",
           "example": "Juanita"
         },

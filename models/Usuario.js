@@ -1,10 +1,10 @@
 // Clase para los usuarios,
 /* class Usuario{
-    constructor(id, idUsuario, password, nombre, followercount, bio, postcount, likes){
+    constructor(id, idUsuario, password, username, followercount, bio, postcount, likes){
         this.id = id;
         this.idUsuario = idUsuario;
         this.password = password;
-        this.nombre = nombre;
+        this.username = username;
         this.followercount = followercount;
         this.bio = bio;
         this.postcount = postcount;
@@ -22,7 +22,7 @@ const secret = require("../config").secret;
 
 const UsuarioSchema = new mongoose.Schema(
   {
-    nombre: { type: String, required: true, lowercase: true, unique: true },
+    username: { type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
     bio: { type: String, required: true },
     postcount: Number, // Número de posts - Aggregate
@@ -33,12 +33,12 @@ const UsuarioSchema = new mongoose.Schema(
   { collection: "Usuarios", timestamps: true, versionKey: false }
 );
 
-UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese nombre." });
+UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese username." });
 
 UsuarioSchema.methods.publicData = function () {
   return {
     id: this._id,
-    nombre: this.nombre,
+    username: this.username,
     followercount: this.followercount,
     bio: this.bio,
     likes: this.likes,
@@ -67,7 +67,7 @@ UsuarioSchema.methods.generaJWT = function () {
   return jwt.sign(
     {
       id: this._id,
-      nombre: this.nombre,
+      username: this.username,
       exp: parseInt(exp.getTime() / 1000),
     },
     secret
@@ -77,7 +77,7 @@ UsuarioSchema.methods.generaJWT = function () {
 UsuarioSchema.methods.toAuthJSON = function () {
   return {
     id: this._id,
-    nombre: this.nombre,
+    username: this.username,
     token: this.generaJWT()
   };
 };

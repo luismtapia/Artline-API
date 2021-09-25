@@ -33,8 +33,8 @@ function updateUsuario(req, res, next) {
         user.crearPassword(nuevaInfo.password);
       }
 
-      if (typeof nuevaInfo.nombre !== "undefined") {
-        user.nombre = nuevaInfo.nombre;
+      if (typeof nuevaInfo.username !== "undefined") {
+        user.username = nuevaInfo.username;
       }
 
       if (typeof nuevaInfo.followercount !== "undefined") {
@@ -72,7 +72,7 @@ function readAtributosUsuario(req, res, next) {
   if (typeof (req.body.data) === 'string') { data = new RegExp(req.body.data, 'i'); }
   else { data = req.body.data }
   if (atr == "id" ||
-    atr == "nombre" ||
+    atr == "username" ||
     atr == "followercount" ||
     atr == "bio" ||
     atr == "likes") {
@@ -134,8 +134,8 @@ function readTopUsuarios(req, res, next) {
 }
 
 function loginSession(req, res, next){
-  if(!req.body.nombre || !req.body.password){
-    return res.status(422).json({error: {nombre : 'Falta información'}});
+  if(!req.body.username || !req.body.password){
+    return res.status(422).json({error: {username : 'Falta información'}});
   }
 
   passport.authenticate('local', { session: false}, 
@@ -143,7 +143,7 @@ function loginSession(req, res, next){
     if(err) return next(err);
     if(user){
       user.token = user.generaJWT();
-      return res.status(200).send(`¡Bienvenid@ a Artline, ${user.nombre}!`);      
+      return res.status(200).send(`¡Bienvenid@ a Artline, ${user.username}!`);      
     } else {     
       return res.status(422).json(info);
     }
