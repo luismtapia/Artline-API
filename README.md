@@ -19,11 +19,14 @@ Para información más detallada sobre la estructura de carpetas/archivos y la f
 ![preview uso](assets/usage.gif)
 _clonando el repositorio para ejecutar un servidor local_
 
+consumir con url: `http://localhost:4001/artline/...`
+
 ### Uso Remoto
-**Aqui va video**
+![preview uso](assets/usage_prod.gif)
 
 _puedes consumir la API desde heroku en el siguiente [link](https://artline-team10.herokuapp.com/artline) base y la documentación de uso la encuentras en [swagger](https://app.swaggerhub.com/apis-docs/Bedu/artline/1.0.0) o támbien la documentacion generada en [postman](https://documenter.getpostman.com/view/16860488/UUxxfo8j)_
 
+consumir con url: `https://artline-team10.herokuapp.com/artline...`
 
 ## Toda la documentación se encuentra en la Wiki :book:
 
