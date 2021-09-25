@@ -59,11 +59,11 @@ function updateUsuario(req, res, next) {
 }
 
 function deleteUsuario(req, res, next) {
-  Usuario.findOneAndDelete({_id: req.usuario.id})
-  .then(r => {
-    res.status(200).send("Usuario eliminado")
-  })
-  .catch(next)
+  Usuario.findOneAndDelete({ _id: req.usuario.id })
+    .then(r => {
+      res.status(200).send("Usuario eliminado")
+    })
+    .catch(next)
 }
 
 function readAtributosUsuario(req, res, next) {
@@ -94,18 +94,27 @@ function readAtributosUsuario(req, res, next) {
 
 
 function readParametrosUsuario(req, res) {
-  res.status(200).send("Mira los parametros  del  artista :o");
+  Usuario.find({ }).select(req.body)
+    .then(usuarios => {
+      if (!usuarios) return res.status(404);
+      let resultado = []
+      usuarios.forEach(usuario => {
+        resultado.push(usuario.publicData())
+      })
+      return res.json(resultado);
+    })
+    .catch(next)
 }
 
 
 function readIdUsuario(req, res, next) {
   Usuario.findById(req.usuario.id)
-  .then(user => {
-    if(!user) {
-      return res.sendStatus(401)
-    }
-    return res.json(user.publicdata)
-  }).catch(err => res.send (err));
+    .then(user => {
+      if (!user) {
+        return res.sendStatus(401)
+      }
+      return res.json(user.publicdata)
+    }).catch(err => res.send(err));
 }
 
 
@@ -135,21 +144,21 @@ function readTopUsuarios(req, res, next) {
     .catch(next)
 }
 
-function loginSession(req, res, next){
-  if(!req.body.username || !req.body.password){
-    return res.status(422).json({error: {username : 'Falta información'}});
+function loginSession(req, res, next) {
+  if (!req.body.username || !req.body.password) {
+    return res.status(422).json({ error: { username: 'Falta información' } });
   }
 
-  passport.authenticate('local', { session: false}, 
-  function (err, user, info){
-    if(err) return next(err);
-    if(user){
-      user.token = user.generaJWT();
-      return res.status(200).send(`¡Bienvenid@ a Artline, ${user.username}!`);      
-    } else {     
-      return res.status(422).json(info);
-    }
-  })(req, res, next)
+  passport.authenticate('local', { session: false },
+    function (err, user, info) {
+      if (err) return next(err);
+      if (user) {
+        user.token = user.generaJWT();
+        return res.status(200).send(`¡Bienvenid@ a Artline, ${user.username}!`);
+      } else {
+        return res.status(422).json(info);
+      }
+    })(req, res, next)
 }
 
 
