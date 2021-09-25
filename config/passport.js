@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
 passport.use(new LocalStrategy({
-    usernameField: 'nombre',
+    usernameField: 'username',
     passwordField: 'password'
-  }, function (nombre, password, next) {
-    Usuario.findOne({ 'nombre': nombre })
+  }, function (username, password, next) {
+    Usuario.findOne({ 'username': username })
     .then(function (user) {
       if (!user || !user.validarPassword(password)) {
-        return next(null, false, { error: {'nombre o contraseña': 'incorrectos'} });
+        return next(null, false, { error: {'username o contraseña': 'incorrectos'} });
       }
       console.log(user);
       return next(null, user);
