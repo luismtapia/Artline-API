@@ -1,0 +1,1187 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Este proyecto consiste en el desarrollo de una API para una red social enfocada al ámbito artístico. Se busca que esta API tenga acceso a una base de datos de artistas y obras, para así crear una serie de endpoints enfocados a la creación, consulta y edición de dicha información. Todo esto con el fin de crear una comunidad de usuarios que disfrutan de ver y compartir el arte.\n",
+    "version": "1.0.0",
+    "title": "Artline",
+    "contact": {
+      "email": "it@artline.com"
+    }
+  },
+  "host": "virtserver.swaggerhub.com",
+  "basePath": "/miuclara91/Artline/1.0.0",
+  "tags": [
+    {
+      "name": "usuarios",
+      "description": "Operaciones en los usuarios"
+    },
+    {
+      "name": "comentarios",
+      "description": "Operaciones en los comentarios"
+    },
+    {
+      "name": "publicaciones",
+      "description": "Operaciones de las publicaciones"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "security": [
+    {
+      "usuario_auth": [
+        "write:usuario"
+      ]
+    }
+  ],
+  "paths": {
+    "/usuarios": {
+      "post": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Creación de un nuevo usuario",
+        "description": "Crea en la base de datos el registro de un nuevo usuario.",
+        "operationId": "createUsuario",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "usuario",
+            "description": "Objeto usuario que se creará para insertarse en la red social artline",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario creado con éxito"
+          },
+          "500": {
+            "description": "Error fatal"
+          }
+        }
+      }
+    },
+    "/usuarios/entrar": {
+      "post": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Inicio de sesión de un usuario",
+        "description": "Se verifica que el usuario esté registrado en la base de datos ingresando su username y password.",
+        "operationId": "loginSession",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "usuario",
+            "description": "Envío de credenciales",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/usuario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Inicio de sesión exitodo"
+          },
+          "422": {
+            "description": "Falta información"
+          }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa un usuario por su id",
+        "description": "Obtiene de la base de datos al usuario que se busca por su id",
+        "operationId": "readIdUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID del usuario a buscar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud del usuario se realizó con éxito"
+          },
+          "401": {
+            "description": "No se cuenta con autorizacion para visualizar la información"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Modificación de un usuario por su id",
+        "description": "A través del id del usuario se puede cambiar su información, por ejemplo, su nombre.",
+        "operationId": "updateUsuario",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ObjectId del usuario que será modificado",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "usuario",
+            "description": "Objeto usuario que se modificará en la red social artline",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Usuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuario modificado"
+          },
+          "500": {
+            "description": "Error fatal"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Elimina un usuario registrado",
+        "description": "Elimina al usuario que solicita el delete.",
+        "operationId": "delateUsuario",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID del usuario a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuario eliminado"
+          }
+        }
+      }
+    },
+    "/usuarios/todosUsuarios": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa todos los usuarios registrados",
+        "description": "Obtiene de la base de datos todos los usuarios registrados.",
+        "operationId": "readTodosUsuarios",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/usuarios/totalUsuarios": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa la cantidad de usuarios registrados",
+        "description": "Hace un count de registros de usuarios en la base de datos.",
+        "operationId": "totalUsuarios",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "La solicitud se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/usuarios/topUsuarios": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa el Top 10 de usuarios con más seguidores",
+        "description": "Obtiene de la base de datos los diez usuarios con más seguidores.",
+        "operationId": "readTopUsuarios",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/usuarios/params": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa los parámetros elegidos por el usuario",
+        "description": "Obtiene de la base de datos solo los campos que el usuario solicitó.",
+        "operationId": "readParametrosUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parámetros deseados, se inserta un data por cada parámetro que se desea ver.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": {
+                "data1": "nombre",
+                "data2": "id",
+                "data3": "likes",
+                "data4": "followercount"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/usuarios/atributos": {
+      "get": {
+        "tags": [
+          "usuarios"
+        ],
+        "summary": "Regresa los usuarios con el mismo valor en algún atributo",
+        "description": "Obtiene de la base de datos a todos los usuarios que compartan la misma info en el atributo seleccionado por el usuario (tanto atributo como info son ingresados por el usuario)",
+        "operationId": "readAtributosUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "atributo que se desea obtener",
+            "required": true,
+            "schema": {
+              "example": {
+                "atr": "nombre",
+                "data": "Luis"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/publicaciones": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa todas las publicaciones que existen",
+        "description": "Obtiene de la base de datos todas las publicaciones de todos los usuarios",
+        "operationId": "readPublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK indica que la solicitud ha tenido éxito"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Crea una nueva publicación",
+        "description": "Al crear una nueva publicación se debe enviar los parametros en el body",
+        "operationId": "createPublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Manera de crear una nueva publicación",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Publicacion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publicacion creada"
+          }
+        }
+      }
+    },
+    "/publicaciones/{_id}": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa la publicación solicitada",
+        "description": "Obtiene de la base de datos la publicacion con el id solicitado.",
+        "operationId": "getPublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID de la publicacion a leer",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK indica que la solicitud ha tenido éxito"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Modifica una publicación",
+        "description": "Al modificar una publicación se deben enviar los parametros en el body y el ID en el path",
+        "operationId": "updatePublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID de la publicacion a modificar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Los campos a modificar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Publicacion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Publicación modificada correctamente"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Elimina una publicación",
+        "description": "Al eliminar una publicación solo se debe enviar el ID en el path",
+        "operationId": "deletePublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID de la publicacion a eliminar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Elimina las publicaciones"
+          },
+          "400": {
+            "description": "Invalido"
+          },
+          "404": {
+            "description": "Publicacion no encontrada"
+          }
+        }
+      }
+    },
+    "/publicaciones/params": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa los parametros elegidos por el usuario",
+        "description": "Obtiene de la base de datos solo los campos que el usuario solicitó",
+        "operationId": "readParametrosPublicaciones",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parametros deseados, se inserta un data por cada parametro que se desea ver.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": {
+                "data1": "id",
+                "data2": "imagen",
+                "data3": "descripcion"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/publicaciones/atributos": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa los usuarios con el mismo valor en algún atributo",
+        "description": "Obtiene de la base de datos todas las publicaciones  que compartan la misma info en el atributo seleccionado por el usuario (tanto atributo como info son ingresados por el usuario)",
+        "operationId": "readAtributosPublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "atributo que se desea obtener",
+            "required": true,
+            "schema": {
+              "example": {
+                "atr": "descripcion",
+                "data": "esta es una descripcion"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/publicaciones/postBYusuario/{_id}": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa las publicaciones que ha hecho el usuario",
+        "description": "Obtiene de la base de datos las publicaciones que ha hecho el usuario que se esta solicitando",
+        "operationId": "PublicacionesPORUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID del usuario",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK indica que la solicitud ha tenido éxito"
+          }
+        }
+      }
+    },
+    "/publicaciones/totalpostBYusuario/{_id}": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa el total de publicaciones hechas por determinado usuario",
+        "description": "btiene de la base de datos el total de las publicaciones que ha hecho el usuario que se esta solicitando",
+        "operationId": "TotalPublicacionesPORUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID del usuario",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK indica que la solicitud ha tenido éxito"
+          }
+        }
+      }
+    },
+    "/publicaciones/numPublicaciones/{idUsuario}/{num}": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Regresa la cantidad de publicaciones que el usuario desea ver",
+        "description": "Obtiene de la base de datos la cantidad de publicaciones que el usuario solicitó ver de un usuario en específico.",
+        "operationId": "readNumPublicaciones",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "idUsuario",
+            "in": "path",
+            "description": "El ID del usuario que se está consultando",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "num",
+            "in": "path",
+            "description": "Número de publicaciones que el usuario ingresó para ver",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de publicaciones se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/publicaciones/poblar/{numeroregistros}": {
+      "get": {
+        "tags": [
+          "publicaciones"
+        ],
+        "summary": "Crea la cantidad de publicaciones dummy especificada en el path",
+        "description": "Se deben pasar en [registros} la cantidad de registros dummy con los que desea poblar la colección",
+        "operationId": "poblar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "numeroregistros",
+            "in": "path",
+            "description": "La cantidad de registros que desea insertar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/comentarios": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa todos los comentarios que existen",
+        "description": "Obtiene de la base de datos todos los comentarios de todos los usuarios",
+        "operationId": "readComentario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK indica que la solicitud ha tenido éxito"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Crea un nuevo comentario",
+        "description": "Al crear un nuevo comentario se debe enviar los parametros en el body",
+        "operationId": "createComentario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Manera de crear una nueva publicación",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comentario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentario creado"
+          }
+        }
+      }
+    },
+    "/comentarios/{_id}": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Obtiene un comentario por id",
+        "description": "Al solicitar un comentario especifico se debe enviar el ID en el path",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID del comentario a consultar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Modifica un comentario",
+        "description": "Al modificar un comentario se deben enviar los parametros en el body y el ID en el path",
+        "operationId": "updateComentario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID del comentario a modificar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Los campos a modificar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Comentario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentario modificado correctamente"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Elimina un comentario",
+        "description": "Al eliminar un comentario solo se debe enviar el ID en el path",
+        "operationId": "deleteComentario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "_id",
+            "in": "path",
+            "description": "El ID del comentario a eliminar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentario eliminado correctamente"
+          },
+          "400": {
+            "description": "Inválido"
+          },
+          "404": {
+            "description": "Comentario no encontrado"
+          }
+        }
+      }
+    },
+    "/comentarios/params": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa los parametros elegidos por el usuario",
+        "description": "Obtiene de la base de datos solo los campos que el usuario solicitó",
+        "operationId": "readParametroscomentarios",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Parametros deseados, se inserta un data por cada parametro que se desea ver.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": {
+                "data1": "id",
+                "data2": "imagen",
+                "data3": "descripcion"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/comentarios/atributos": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa los usuarios con el mismo valor en algún atributo",
+        "description": "Obtiene de la base de datos todas los comentarios  que compartan la misma info en el atributo seleccionado por el usuario (tanto atributo como info son ingresados por el usuario)",
+        "operationId": "readAtributosComentario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "atributo que se desea obtener",
+            "required": true,
+            "schema": {
+              "example": {
+                "idUsuario": 54654231,
+                "idPublicacion": 498465213213216,
+                "texto": "texto",
+                "attachment": "attachment",
+                "respuesta": "respuesta"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La solicitud de usuarios se realizó con éxito"
+          },
+          "404": {
+            "description": "No se encontró la información solicitada"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/comentarios/comentariosBYusuario/{id}": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa todos los comentarios del usuario",
+        "description": "Obtiene de la base de datos los comentarios del usuario que necesita",
+        "operationId": "ComentariosPORUsuario",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID del usuario",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/comentarios/comentariosBYpublicacion/{id}": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa todos los comentarios de la publicacion",
+        "description": "Obtiene de la base de datos los comentarios de la publicacion que se pasa por parametro",
+        "operationId": "ComentariosPORPublicacion",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID de la publicacion",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/comentarios/comentariosBYrespuesta/{id}": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Regresa todos los comentarios de publicaciones",
+        "description": "Obtiene de la base de datos los comentarios que responden a una publicación o respuesta a algún otro comentario",
+        "operationId": "ComentariosRespuesta",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "El ID del comentario a modificar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/comentarios/poblar/{numeroregistros}": {
+      "get": {
+        "tags": [
+          "comentarios"
+        ],
+        "summary": "Crea la cantidad de comentarios dummy especificada en el path",
+        "description": "Se deben pasar en [registros} la cantidad de registros dummy con los que desea poblar la colección",
+        "operationId": "Poblar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "numeroregistros",
+            "in": "path",
+            "description": "La cantidad de registros que desea insertar",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "usuario_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://localhost:4001/Artline/usuarios/:id",
+      "flow": "implicit",
+      "scopes": {
+        "write:usuario": "Edita los datos del usuario"
+      }
+    }
+  },
+  "definitions": {
+    "Usuario": {
+      "type": "object",
+      "required": [
+        "bio",
+        "email",
+        "nombre",
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "juanita95"
+        },
+        "nombre": {
+          "type": "string",
+          "example": "Juanita"
+        },
+        "email": {
+          "type": "string",
+          "example": "juanita95@gmail.com"
+        },
+        "followercount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bio": {
+          "type": "string",
+          "example": "Mi nombres es Juanita"
+        },
+        "postcount": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "likes": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "salt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Esquema de Usuario: Datos necesarios para el registro y manejo de un usuario."
+    },
+    "Publicacion": {
+      "type": "object",
+      "required": [
+        "_id",
+        "descripcion",
+        "idUsuario",
+        "imagen"
+      ],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "idUsuario": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "imagen": {
+          "type": "string",
+          "example": "https://ichef.bbci.co.uk/news/640/cpsprodpb/17C16/production/_117320379_giocondacerca.jpg"
+        },
+        "descripcion": {
+          "type": "string",
+          "example": "El Retrato de Lisa Gherardini o La Mona Lisa, por Leonardo da Vinci"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Esquema de Publicacion: Ligada a un usuario que la realiza, una imagen y una descripción que la acompaña."
+    },
+    "Comentario": {
+      "type": "object",
+      "required": [
+        "_id",
+        "createdAt",
+        "idPublicacion",
+        "idUsuario",
+        "texto",
+        "updatedAt"
+      ],
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "idUsuario": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "idPublicacion": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "texto": {
+          "type": "string",
+          "example": "Soy un comentario"
+        },
+        "attachment": {
+          "type": "boolean",
+          "default": false
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "description": "Esquema de comentarios: hecho por un usuario a una determinada publicación o en replica a algun otro comentario, con opción de pinear comentarios"
+    },
+    "usuario": {
+      "type": "object",
+      "required": [
+        "password",
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
