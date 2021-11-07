@@ -159,7 +159,8 @@ function loginSession(req, res, next) {
       if (err) return next(err);
       if (user) {
         user.token = user.generaJWT();
-        return res.status(200).send(`¡Bienvenid@ a Artline, ${user.nombre}!`);
+        // return res.status(200).send(`¡Bienvenid@ a Artline, ${user.nombre}!`);
+        return res.status(200).send(user);
       } else {
         return res.status(422).json(info);
       }
