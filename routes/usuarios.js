@@ -8,6 +8,7 @@ const {
     readAtributosUsuario,
     readParametrosUsuario,
     readTodosUsuarios,
+    totalUsuarios,
     readTopUsuarios,
     readIdUsuario,
     loginSession
@@ -15,6 +16,7 @@ const {
 } = require('../controllers/usuarios');
 
 router.get('/todosUsuarios',readTodosUsuarios);
+router.get('/totalUsuarios',totalUsuarios);
 router.get('/topUsuarios',readTopUsuarios);
 router.get('/atributos', readAtributosUsuario);
 router.get('/params', readParametrosUsuario);

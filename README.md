@@ -12,21 +12,22 @@ Como parte del desarrollo del proyecto se definieron las Entidades que están in
 
 Para información más detallada puedes acceder al apartado [Flujo de trabajo](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo) en la Wiki.
 
-## Descripción técnica :computer:
+## Descripción técnica :wrench:
 Para el desarrollo de esta API se está haciendo uso de Node.js y MongoDB.
 Para información más detallada sobre la estructura de carpetas/archivos y la forma de correr el proyecto puedes acceder al apartado [Flujo de trabajo](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo) en la Wiki.
-### Uso Local
+### Uso Local:computer:
 ![preview uso](assets/usage.gif)
-_clonando el repositorio para ejecutar un servidor local_
+_Clonando el repositorio para ejecutar un servidor local_
 
-consumir con url: `http://localhost:4001/artline/...`
+Consumir con url: `http://localhost:4001/artline/...`
 
-### Uso Remoto
+### Uso Remoto :globe_with_meridians:
 ![preview uso](assets/usage_prod.gif)
 
-_puedes consumir la API desde heroku en el siguiente [link](https://artline-team10.herokuapp.com/artline) base y la documentación de uso la encuentras en [swagger](https://app.swaggerhub.com/apis-docs/Bedu/artline/1.0.0) o támbien la documentacion generada en [postman](https://documenter.getpostman.com/view/16860488/UUxxfo8j)_
+_Puedes consumir la API desde heroku con el siguiente [link](https://artline-team10.herokuapp.com/artline) base.
+La documentación de uso la encuentras en [Swagger](https://app.swaggerhub.com/apis-docs/Bedu/artline/1.0.0) o támbien la documentacion generada en [postman](https://documenter.getpostman.com/view/16860488/UUxxfo8j), desde donde se puede obtener ayuda para consumir el servicio en algunos lenguajes de programación._
 
-consumir con url: `https://artline-team10.herokuapp.com/artline...`
+Consumir con url: `https://artline-team10.herokuapp.com/artline/...`
 
 ## Toda la documentación se encuentra en la Wiki :book:
 
@@ -34,3 +35,4 @@ consumir con url: `https://artline-team10.herokuapp.com/artline...`
 - [Requerimientos](https://github.com/14030598/bedu-team10-arte/wiki/Requerimientos)
 - [Documentación](https://www.behance.net/gallery/126576155/Case-study-Artline?)
 - [Flujo de trabajo (desarrollo)](https://github.com/14030598/bedu-team10-arte/wiki/Flujo-de-trabajo)
+- [Ejemplos de uso](https://github.com/14030598/bedu-team10-arte/wiki/Ejemplos-de-uso)

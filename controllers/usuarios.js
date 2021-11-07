@@ -54,9 +54,9 @@ function updateUsuario(req, res, next) {
 }
 
 function deleteUsuario(req, res, next) {
-  Usuario.findOneAndDelete(req.params.id)
+  Usuario.findByIdAndDelete( req.params.id )
     .then(r => {
-      res.status(200).send("Usuario eliminado")
+      res.status(200).send(`El usuario ${r.username} fue eliminado`)
     })
     .catch(next)
 }
@@ -126,6 +126,16 @@ function readTodosUsuarios(req, res, next) {
     .catch(next)
 }
 
+function totalUsuarios(req, res, next) {
+  Usuario.aggregate([
+    {
+      '$count': 'Total de usuarios registrados'
+    }
+  ])
+    .then(r => res.status(200).send(r))
+    .catch(next);
+}
+
 function readTopUsuarios(req, res, next) {
   Usuario.find().sort({ 'followercount': -1 }).limit(10)
     .then(usuarios => {
@@ -167,6 +177,7 @@ module.exports = {
   readParametrosUsuario,
   readIdUsuario,
   readTodosUsuarios,
+  totalUsuarios,
   readTopUsuarios,
   loginSession
 };
