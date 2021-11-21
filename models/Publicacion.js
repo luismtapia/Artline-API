@@ -13,6 +13,10 @@ const PublicacionSchema = new mongoose.Schema({
     descripcion: {
         type: String,
         require: true
+    },
+    likes: {
+        type: Number,
+        default: 0
     }
 }, { collection: "Publicaciones", timestamps: true, versionKey: false });
 
@@ -23,7 +27,8 @@ PublicacionSchema.methods.publicData = function () {
         id: this.id,
         idUsuario: this.idUsuario,
         imagen: this.imagen,
-        descripcion: this.descripcion
+        descripcion: this.descripcion,
+        likes: this.likes
     }
 };
 

@@ -68,7 +68,8 @@ function PublicacionesPORUsuario(req, res, next) {
             '$project': {
                 'idUsuario': 1,
                 'imagen': 1,
-                'descripcion': 1
+                'descripcion': 1,
+                'likes': 1
             }
         }
     ])
@@ -91,7 +92,6 @@ function TotalPublicacionesPORUsuario(req, res, next) {
         .catch(next);
 }
 function readAtributosPublicacion(req, res, next) {
-
     let atr = req.body.atr;
     let data = new RegExp(req.body.data, 'i');
     if (atr == "imagen" ||
@@ -150,7 +150,8 @@ async function poblar(req, res, next) {
         let nuevapublicacion = new Publicacion({
             idUsuario: idUser._id,
             imagen: imagenes[aleatorio(imagenes.length)],
-            descripcion: descripciones[aleatorio(descripciones.length)]
+            descripcion: descripciones[aleatorio(descripciones.length)],
+            likes: 52
         });
         nuevapublicacion.save()
             .then(post => {
