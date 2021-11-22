@@ -23,7 +23,7 @@ function readPublicacion(req, res, next) {
             })
             .catch(next);
     } else {
-        Publicacion.find({}, { idUsuario: 1, imagen: 1, descripcion: 1, createdAt: 1 })
+        Publicacion.find({}, { idUsuario: 1, imagen: 1, descripcion: 1, likes: 1, createdAt: 1 })
             .then(post => {
                 res.status(200).send(post);
             })
