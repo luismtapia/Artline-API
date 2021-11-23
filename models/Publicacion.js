@@ -15,8 +15,8 @@ const PublicacionSchema = new mongoose.Schema({
         require: true
     },
     likes: {
-        type: Number,
-        default: 0
+        type: Array,
+        default: []
     }
 }, { collection: "Publicaciones", timestamps: true, versionKey: false });
 
