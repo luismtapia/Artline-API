@@ -17,6 +17,14 @@ const PublicacionSchema = new mongoose.Schema({
     likes: {
         type: Array,
         default: []
+    },
+    comentarios: {
+        type: Array,
+        default: []
+    },
+    shares: {
+        type: Number,
+        default: 0
     }
 }, { collection: "Publicaciones", timestamps: true, versionKey: false });
 
@@ -28,7 +36,9 @@ PublicacionSchema.methods.publicData = function () {
         idUsuario: this.idUsuario,
         imagen: this.imagen,
         descripcion: this.descripcion,
-        likes: this.likes
+        likes: this.likes,
+        comentarios: this.comentarios,
+        shares: this.shares
     }
 };
 
