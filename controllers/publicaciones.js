@@ -24,8 +24,28 @@ function readPublicacion(req, res, next) {
             })
             .catch(next);
     } else {
-        Publicacion.find({}, { idUsuario: 1, imagen: 1, descripcion: 1, likes: 1, comentarios: 1, shares: 1, createdAt: 1 })
-            .populate({ path: 'idUsuario', model: Usuario })
+        Publicacion.aggregate([
+            {
+                '$project': {
+                    '_id': 1,
+                    'idUsuario': 1,
+                    'imagen': 1,
+                    'descripcion': 1,
+                    'likes': 1,
+                    'comentarios': 1,
+                    'shares': 1
+                }
+            }, {
+                '$lookup': {
+                    'from': 'Usuarios',
+                    'localField': 'idUsuario',
+                    'foreignField': '_id',
+                    'as': 'usuario'
+                }
+            }
+        ])
+            /*Publicacion.find({}, { idUsuario: 1, imagen: 1, descripcion: 1, likes: 1, comentarios: 1, shares: 1, createdAt: 1 })
+                .populate({ path: 'idUsuario', model: Usuario })*/
             .then(post => {
                 res.status(200).send(post);
             })
