@@ -13,15 +13,32 @@ const PublicacionSchema = new mongoose.Schema({
     descripcion: {
         type: String,
         require: true
+    },
+    likes: {
+        type: Array,
+        default: []
+    },
+    comentarios: {
+        type: Array,
+        default: []
+    },
+    shares: {
+        type: Number,
+        default: 0
     }
-}, {collection: "Publicaciones", timestamps: true, versionKey: false});
+}, { collection: "Publicaciones", timestamps: true, versionKey: false });
 
-// Los campos a mostrar seran imagen y descripcion; ya que _id y idUsuario se sobreentinde que sera el que la esta solicitando
+// Los campos a mostrar
+//BORRAR ; ya que _id y idUsuario se sobreentinde que sera el que la esta solicitando
 PublicacionSchema.methods.publicData = function () {
     return {
         id: this.id,
+        idUsuario: this.idUsuario,
         imagen: this.imagen,
-        descripcion: this.descripcion
+        descripcion: this.descripcion,
+        likes: this.likes,
+        comentarios: this.comentarios,
+        shares: this.shares
     }
 };
 

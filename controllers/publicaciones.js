@@ -4,7 +4,7 @@ const Publicacion = mongoose.model("Publicacion");
 
 // imports para poblar BD
 const Usuario = mongoose.model("Usuario");
-const {imagenes,descripciones} = require('../config/variablesBD');
+const { imagenes, descripciones } = require('../config/variablesBD');
 
 // CRUD para Publicacion
 function createPublicacion(req, res, next) {
@@ -23,7 +23,29 @@ function readPublicacion(req, res, next) {
             })
             .catch(next);
     } else {
-        Publicacion.find({}, { imagen: 1, descripcion: 1 })
+        Publicacion.aggregate([
+            {
+                '$project': {
+                    '_id': 1,
+                    'idUsuario': 1,
+                    'imagen': 1,
+                    'descripcion': 1,
+                    'likes': 1,
+                    'comentarios': 1,
+                    'shares': 1,
+                    'createdAt': 1
+                }
+            }, {
+                '$lookup': {
+                    'from': 'Usuarios',
+                    'localField': 'idUsuario',
+                    'foreignField': '_id',
+                    'as': 'usuario'
+                }
+            }
+        ])
+            /*Publicacion.find({}, { idUsuario: 1, imagen: 1, descripcion: 1, likes: 1, comentarios: 1, shares: 1, createdAt: 1 })
+                .populate({ path: 'idUsuario', model: Usuario })*/
             .then(post => {
                 res.status(200).send(post);
             })
@@ -66,9 +88,14 @@ function PublicacionesPORUsuario(req, res, next) {
             }
         }, {
             '$project': {
+                '_id': 1,
                 'idUsuario': 1,
                 'imagen': 1,
-                'descripcion': 1
+                'descripcion': 1,
+                'likes': 1,
+                'comentarios': 1,
+                'shares': 1,
+                'createdAt': 1
             }
         }
     ])
@@ -91,7 +118,6 @@ function TotalPublicacionesPORUsuario(req, res, next) {
         .catch(next);
 }
 function readAtributosPublicacion(req, res, next) {
-
     let atr = req.body.atr;
     let data = new RegExp(req.body.data, 'i');
     if (atr == "imagen" ||
@@ -140,24 +166,25 @@ function readNumPublicaciones(req, res, next) {
 // Codigo para poblar la Base de Datos
 async function poblar(req, res, next) {
     const registros = req.params.registros;
-    const usuarios = await Usuario.aggregate([{'$count': 'total_usuarios'}]);
+    const usuarios = await Usuario.aggregate([{ '$count': 'total_usuarios' }]);
 
-    const aleatorio = max => Math.floor(Math.random()*max);
-    let total_usuarios=usuarios[0].total_usuarios;
+    const aleatorio = max => Math.floor(Math.random() * max);
+    let total_usuarios = usuarios[0].total_usuarios;
 
     for (let index = 0; index < registros; index++) {
-        const idUser =  await Usuario.findOne().skip(aleatorio(total_usuarios));
-        let nuevapublicacion = new Publicacion ({
-            idUsuario : idUser._id,
-            imagen : imagenes[aleatorio(imagenes.length)],
-            descripcion : descripciones[aleatorio(descripciones.length)]
+        const idUser = await Usuario.findOne().skip(aleatorio(total_usuarios));
+        let nuevapublicacion = new Publicacion({
+            idUsuario: idUser._id,
+            imagen: imagenes[aleatorio(imagenes.length)],
+            descripcion: descripciones[aleatorio(descripciones.length)],
+            likes: 52
         });
         nuevapublicacion.save()
-        .then(post => {
-            res.status(200).send(`${registros} registros insertados correctamente`);
-        })
-        .catch(next);
-      } // fin for
+            .then(post => {
+                res.status(200).send(`${registros} registros insertados correctamente`);
+            })
+            .catch(next);
+    } // fin for
 }
 
 module.exports = {
