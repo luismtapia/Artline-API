@@ -22,7 +22,7 @@ router.get('/atributos', readAtributosUsuario);
 router.get('/params', readParametrosUsuario);
 router.get('/:id', readIdUsuario);
 router.post('/', createUsuario);
-router.post('/entrar', loginSession);
+router.post('/entrar', auth.requerido, loginSession);
 router.put('/:id', auth.requerido, updateUsuario);
 router.delete('/:id', deleteUsuario);
 
