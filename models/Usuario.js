@@ -24,7 +24,7 @@ const UsuarioSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, lowercase: true, unique: true },
     nombre:{type: String, required: true},
-    email:{type: String, required: true,lowercase: true, unique: true },
+    email:{type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
     bio: { type: String }, //Quitamos el required
     postcount: Number, // Número de posts - Aggregate
