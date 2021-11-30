@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 // Express
 const express = require('express');
 const app = express();
@@ -15,7 +15,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGO_URI, // obtiene la url de conexión desde las variables de entorno
     { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
-); 
+);
 mongoose.set('debug', true);
 
 // Importar Modelos - Esquemas

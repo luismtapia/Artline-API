@@ -17,11 +17,39 @@ function createPublicacion(req, res, next) {
 
 function readPublicacion(req, res, next) {
     if (req.params.id) {// paso un id y solo regresa la publicacion de ese id
-        Publicacion.findById(req.params.id)
+        Publicacion.aggregate([
+            {
+                '$match': {
+                    '_id': new ObjectId(req.params.id)
+                }
+            }, {
+                '$project': {
+                    '_id': 1,
+                    'idUsuario': 1,
+                    'imagen': 1,
+                    'descripcion': 1,
+                    'likes': 1,
+                    'comentarios': 1,
+                    'shares': 1
+                }
+            }, {
+                '$lookup': {
+                    'from': 'Usuarios',
+                    'localField': 'idUsuario',
+                    'foreignField': '_id',
+                    'as': 'usuario'
+                }
+            }
+        ])
+            .then(post => {
+                res.status(200).json(post);
+            })
+            .catch(next);
+        /*Publicacion.findById(req.params.id)
             .then(post => {
                 res.status(200).json(post.publicData());
             })
-            .catch(next);
+            .catch(next);*/
     } else {
         Publicacion.aggregate([
             {
@@ -96,6 +124,13 @@ function PublicacionesPORUsuario(req, res, next) {
                 'comentarios': 1,
                 'shares': 1,
                 'createdAt': 1
+            }
+        }, {
+            '$lookup': {
+                'from': 'Usuarios',
+                'localField': 'idUsuario',
+                'foreignField': '_id',
+                'as': 'usuario'
             }
         }
     ])
