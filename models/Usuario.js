@@ -23,8 +23,8 @@ const secret = require("../config").secret;
 const UsuarioSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, lowercase: true, unique: true },
-    nombre:{type: String, required: true},
-    email:{type: String, required: true, lowercase: true, unique: true },
+    nombre: { type: String, required: true },
+    email: { type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
     bio: { type: String }, //Quitamos el required
     postcount: Number, // Número de posts - Aggregate
@@ -42,7 +42,7 @@ UsuarioSchema.methods.publicData = function () {
     id: this._id,
     username: this.username,
     nombre: this.nombre,
-    email:this.email,
+    email: this.email,
     followercount: this.followercount,
     bio: this.bio,
     likes: this.likes,
@@ -82,6 +82,20 @@ UsuarioSchema.methods.toAuthJSON = function () {
   return {
     id: this._id,
     username: this.username,
+    token: this.generaJWT()
+  };
+};
+
+UsuarioSchema.methods.toLoginJSON = function () {
+  return {
+    id: this._id,
+    username: this.username,
+    nombre: this.nombre,
+    email: this.email,
+    followercount: 4,
+    bio: "Soy una biografia",
+    postcount: 5,
+    likes: 5,
     token: this.generaJWT()
   };
 };

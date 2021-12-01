@@ -54,7 +54,7 @@ function updateUsuario(req, res, next) {
 }
 
 function deleteUsuario(req, res, next) {
-  Usuario.findByIdAndDelete( req.params.id )
+  Usuario.findByIdAndDelete(req.params.id)
     .then(r => {
       res.status(200).send(`El usuario ${r.username} fue eliminado`)
     })
@@ -151,20 +151,20 @@ function readTopUsuarios(req, res, next) {
 
 function loginSession(req, res, next) {
   if (!req.body.email || !req.body.password) {
-    return res.status(422).json({ error: { username: 'Falta información' } });
-  }  
+    return res.status(422).json({ error: 'Falta información' });
+  }
 
- passport.authenticate('local', { session: false },
+  passport.authenticate('local', { session: false },
     function (err, user, info) {
       if (err) return next(err);
-      if (user) {       
+      if (user) {
         console.log(`¡Bienvenid@ a Artline, ${user.nombre}!`);
-        return res.status(200).send(user);
+        return res.status(200).json(user.toLoginJSON());
       } else {
         return res.status(422).json(info);
       }
     })(req, res, next)
-    
+
 }
 
 
