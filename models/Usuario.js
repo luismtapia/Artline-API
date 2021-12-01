@@ -1,18 +1,3 @@
-// Clase para los usuarios,
-/* class Usuario{
-    constructor(id, idUsuario, password, username, followercount, bio, postcount, likes){
-        this.id = id;
-        this.idUsuario = idUsuario;
-        this.password = password;
-        this.username = username;
-        this.followercount = followercount;
-        this.bio = bio;
-        this.postcount = postcount;
-        this.likes = likes;
-    }
-}
-module.exports = Usuario; */
-
 // Definición del Modelo Usuario
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
