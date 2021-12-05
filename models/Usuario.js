@@ -20,7 +20,7 @@ const UsuarioSchema = new mongoose.Schema(
   { collection: "Usuarios", timestamps: true, versionKey: false }
 );
 
-UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese username." });
+UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese username o email." });
 
 UsuarioSchema.methods.publicData = function () {
   return {

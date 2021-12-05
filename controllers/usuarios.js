@@ -1,20 +1,30 @@
 const mongoose = require("mongoose");
 const Usuario = mongoose.model("Usuario");
-const passport = require('passport');
+const passport = require("passport");
 
 // CRUD para Usuario
 function createUsuario(req, res, next) {
   const body = req.body;
   const password = body.password;
 
-  delete body.password;
+  if (
+    body.email !== "" &&
+    body.nombre !== "" &&
+    body.username !== "" &&
+    password !== ""
+  ) {
+    delete body.password;
+    console.log("Ya borré la contraseña....");
+    const usuario = new Usuario(body);
 
-  const usuario = new Usuario(body);
-
-  usuario.crearPassword(password);
-  usuario.save()
-    .then(user => res.status(200).json(user.toAuthJSON()))
-    .catch(next);
+    usuario.crearPassword(password);
+    usuario
+      .save()
+      .then((user) => res.status(200).json(user.toAuthJSON()))
+      .catch(next);
+  } else {
+    return res.status(422).json({ error: "Falta información. Favor de llenar todo el registro." });
+  }
 }
 
 function updateUsuario(req, res, next) {
@@ -44,7 +54,8 @@ function updateUsuario(req, res, next) {
         user.likes = nuevaInfo.likes;
       }
 
-      user.save()
+      user
+        .save()
         .then((updated) => {
           res.status(201).json(updated.publicData());
         })
@@ -55,106 +66,117 @@ function updateUsuario(req, res, next) {
 
 function deleteUsuario(req, res, next) {
   Usuario.findByIdAndDelete(req.params.id)
-    .then(r => {
-      res.status(200).send(`El usuario ${r.username} fue eliminado`)
+    .then((r) => {
+      res.status(200).send(`El usuario ${r.username} fue eliminado`);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function readAtributosUsuario(req, res, next) {
   let atr = req.body.atr;
   let data;
-  if (typeof (req.body.data) === 'string') { data = new RegExp(req.body.data, 'i'); }
-  else { data = req.body.data }
-  if (atr == "id" ||
+  if (typeof req.body.data === "string") {
+    data = new RegExp(req.body.data, "i");
+  } else {
+    data = req.body.data;
+  }
+  if (
+    atr == "id" ||
     atr == "username" ||
     atr == "nombre" ||
     atr == "email" ||
     atr == "followercount" ||
     atr == "bio" ||
-    atr == "likes") {
+    atr == "likes"
+  ) {
     Usuario.find({ [atr]: data })
-      .then(usuarios => {
+      .then((usuarios) => {
         if (!usuarios) return res.status(404);
-        let resultado = []
-        usuarios.forEach(usuario => {
-          resultado.push(usuario.publicData())
-        })
+        let resultado = [];
+        usuarios.forEach((usuario) => {
+          resultado.push(usuario.publicData());
+        });
         return res.json(resultado);
       })
-      .catch(next)
-  } else { res.send("Atributo no válido."); }
-
+      .catch(next);
+  } else {
+    res.send("Atributo no válido.");
+  }
 }
 
-
 function readParametrosUsuario(req, res, next) {
-
-  Usuario.find({}).select(`${req.body.data1} ${req.body.data2} ${req.body.data3} ${req.body.data4} ${req.body.data5} ${req.body.data6} ${req.body.data7} `)
-    .then(usuarios => {
+  Usuario.find({})
+    .select(
+      `${req.body.data1} ${req.body.data2} ${req.body.data3} ${req.body.data4} ${req.body.data5} ${req.body.data6} ${req.body.data7} `
+    )
+    .then((usuarios) => {
       if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
-      })
+      let resultado = [];
+      usuarios.forEach((usuario) => {
+        resultado.push(usuario.publicData());
+      });
       return res.json(resultado);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function readIdUsuario(req, res) {
   Usuario.findById(req.params.id)
-    .then(user => {
+    .then((user) => {
       if (!user) {
-        return res.sendStatus(401)
+        return res.sendStatus(401);
       }
-      return res.json(user.publicData())
-    }).catch(err => res.send(err));
+      return res.json(user.publicData());
+    })
+    .catch((err) => res.send(err));
 }
-
 
 function readTodosUsuarios(req, res, next) {
   Usuario.find()
-    .then(usuarios => {
+    .then((usuarios) => {
       if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
-      })
+      let resultado = [];
+      usuarios.forEach((usuario) => {
+        resultado.push(usuario.publicData());
+      });
       return res.json(resultado);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function totalUsuarios(req, res, next) {
   Usuario.aggregate([
     {
-      '$count': 'Total de usuarios registrados'
-    }
+      $count: "Total de usuarios registrados",
+    },
   ])
-    .then(r => res.status(200).send(r))
+    .then((r) => res.status(200).send(r))
     .catch(next);
 }
 
 function readTopUsuarios(req, res, next) {
-  Usuario.find().sort({ 'followercount': -1 }).limit(10)
-    .then(usuarios => {
+  Usuario.find()
+    .sort({ followercount: -1 })
+    .limit(10)
+    .then((usuarios) => {
       if (!usuarios) return res.status(404);
-      let resultado = []
-      usuarios.forEach(usuario => {
-        resultado.push(usuario.publicData())
-      })
+      let resultado = [];
+      usuarios.forEach((usuario) => {
+        resultado.push(usuario.publicData());
+      });
       return res.json(resultado);
     })
-    .catch(next)
+    .catch(next);
 }
 
 function loginSession(req, res, next) {
   if (!req.body.email || !req.body.password) {
-    return res.status(422).json({ error: 'Falta información' });
+    return res.status(422).json({ error: "Falta información" });
   }
 
-  passport.authenticate('local', { session: false },
+  passport.authenticate(
+    "local",
+    { session: false },
     function (err, user, info) {
       if (err) return next(err);
       if (user) {
@@ -163,11 +185,9 @@ function loginSession(req, res, next) {
       } else {
         return res.status(422).json(info);
       }
-    })(req, res, next)
-
+    }
+  )(req, res, next);
 }
-
-
 
 module.exports = {
   createUsuario,
@@ -179,5 +199,5 @@ module.exports = {
   readTodosUsuarios,
   totalUsuarios,
   readTopUsuarios,
-  loginSession
+  loginSession,
 };
