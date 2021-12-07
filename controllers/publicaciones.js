@@ -30,7 +30,8 @@ function readPublicacion(req, res, next) {
                     'descripcion': 1,
                     'likes': 1,
                     'comentarios': 1,
-                    'shares': 1
+                    'shares': 1,
+                    'createdAt': 1
                 }
             }, {
                 '$lookup': {

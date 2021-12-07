@@ -77,10 +77,6 @@ UsuarioSchema.methods.toLoginJSON = function () {
     username: this.username,
     nombre: this.nombre,
     email: this.email,
-    followercount: 4,
-    bio: "Soy una biografia",
-    postcount: 5,
-    likes: 5,
     token: this.generaJWT()
   };
 };
