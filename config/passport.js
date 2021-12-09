@@ -4,16 +4,16 @@ const mongoose = require('mongoose');
 const Usuario = mongoose.model('Usuario');
 
 passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-  }, function (username, password, next) {
-    Usuario.findOne({ 'username': username })
+  usernameField: 'email',
+  passwordField: 'password'
+}, function (email, password, next) {
+  Usuario.findOne({ 'email': email })
     .then(function (user) {
       if (!user || !user.validarPassword(password)) {
-        return next(null, false, { error: {'username o contraseña': 'incorrectos'} });
+        return next(null, false, { error: "email o contraseña incorrectos" });
       }
       console.log(user);
       return next(null, user);
     })
     .catch(next);
-  }));
+}));

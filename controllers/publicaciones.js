@@ -17,11 +17,40 @@ function createPublicacion(req, res, next) {
 
 function readPublicacion(req, res, next) {
     if (req.params.id) {// paso un id y solo regresa la publicacion de ese id
-        Publicacion.findById(req.params.id)
+        Publicacion.aggregate([
+            {
+                '$match': {
+                    '_id': new ObjectId(req.params.id)
+                }
+            }, {
+                '$project': {
+                    '_id': 1,
+                    'idUsuario': 1,
+                    'imagen': 1,
+                    'descripcion': 1,
+                    'likes': 1,
+                    'comentarios': 1,
+                    'shares': 1,
+                    'createdAt': 1
+                }
+            }, {
+                '$lookup': {
+                    'from': 'Usuarios',
+                    'localField': 'idUsuario',
+                    'foreignField': '_id',
+                    'as': 'usuario'
+                }
+            }
+        ])
+            .then(post => {
+                res.status(200).json(post);
+            })
+            .catch(next);
+        /*Publicacion.findById(req.params.id)
             .then(post => {
                 res.status(200).json(post.publicData());
             })
-            .catch(next);
+            .catch(next);*/
     } else {
         Publicacion.aggregate([
             {
@@ -58,12 +87,20 @@ function updatePublicacion(req, res, next) {
         .then(post => {
             if (!post) { return res.sendStatus(401); }
             let nuevapublicacion = req.body;
+            // usuario no puede cambiarse
             if (typeof nuevapublicacion.idUsuario !== 'undefined')
                 post.idUsuario = nuevapublicacion.idUsuario;
+            // eliminar arriba y agregar comentarios y shares abajo
             if (typeof nuevapublicacion.imagen !== 'undefined')
                 post.imagen = nuevapublicacion.imagen;
             if (typeof nuevapublicacion.descripcion !== 'undefined')
                 post.descripcion = nuevapublicacion.descripcion;
+            if (typeof nuevapublicacion.likes !== 'undefined')
+                post.likes = nuevapublicacion.likes;
+            if (typeof nuevapublicacion.comentarios !== 'undefined')
+                post.comentarios = nuevapublicacion.comentarios;
+            if (typeof nuevapublicacion.shares !== 'undefined')
+                post.shares = nuevapublicacion.shares;
             post.save()
                 .then(postupdated => res.status(200).json(postupdated.publicData()))
                 .catch(next);
@@ -96,6 +133,13 @@ function PublicacionesPORUsuario(req, res, next) {
                 'comentarios': 1,
                 'shares': 1,
                 'createdAt': 1
+            }
+        }, {
+            '$lookup': {
+                'from': 'Usuarios',
+                'localField': 'idUsuario',
+                'foreignField': '_id',
+                'as': 'usuario'
             }
         }
     ])

@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 // Express
 const express = require('express');
 const app = express();
@@ -27,7 +27,6 @@ require('./config/passport');
 // Configuración de Rutas
 app.use('/Artline', require('./routes'));
 
-//const PORT = 4001;
 app.listen(process.env.PORT, () => {
     console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);
 });

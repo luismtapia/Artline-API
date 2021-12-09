@@ -1,18 +1,3 @@
-// Clase para los usuarios,
-/* class Usuario{
-    constructor(id, idUsuario, password, username, followercount, bio, postcount, likes){
-        this.id = id;
-        this.idUsuario = idUsuario;
-        this.password = password;
-        this.username = username;
-        this.followercount = followercount;
-        this.bio = bio;
-        this.postcount = postcount;
-        this.likes = likes;
-    }
-}
-module.exports = Usuario; */
-
 // Definición del Modelo Usuario
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
@@ -23,8 +8,8 @@ const secret = require("../config").secret;
 const UsuarioSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, lowercase: true, unique: true },
-    nombre:{type: String, required: true},
-    email:{type: String, required: true,lowercase: true, unique: true },
+    nombre: { type: String, required: true },
+    email: { type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
     bio: { type: String }, //Quitamos el required
     postcount: Number, // Número de posts - Aggregate
@@ -35,14 +20,14 @@ const UsuarioSchema = new mongoose.Schema(
   { collection: "Usuarios", timestamps: true, versionKey: false }
 );
 
-UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese username." });
+UsuarioSchema.plugin(uniqueValidator, { message: "Ya existe ese username o email." });
 
 UsuarioSchema.methods.publicData = function () {
   return {
     id: this._id,
     username: this.username,
     nombre: this.nombre,
-    email:this.email,
+    email: this.email,
     followercount: this.followercount,
     bio: this.bio,
     likes: this.likes,
@@ -82,6 +67,16 @@ UsuarioSchema.methods.toAuthJSON = function () {
   return {
     id: this._id,
     username: this.username,
+    token: this.generaJWT()
+  };
+};
+
+UsuarioSchema.methods.toLoginJSON = function () {
+  return {
+    id: this._id,
+    username: this.username,
+    nombre: this.nombre,
+    email: this.email,
     token: this.generaJWT()
   };
 };
