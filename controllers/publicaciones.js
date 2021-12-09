@@ -87,12 +87,20 @@ function updatePublicacion(req, res, next) {
         .then(post => {
             if (!post) { return res.sendStatus(401); }
             let nuevapublicacion = req.body;
+            // usuario no puede cambiarse
             if (typeof nuevapublicacion.idUsuario !== 'undefined')
                 post.idUsuario = nuevapublicacion.idUsuario;
+            // eliminar arriba y agregar comentarios y shares abajo
             if (typeof nuevapublicacion.imagen !== 'undefined')
                 post.imagen = nuevapublicacion.imagen;
             if (typeof nuevapublicacion.descripcion !== 'undefined')
                 post.descripcion = nuevapublicacion.descripcion;
+            if (typeof nuevapublicacion.likes !== 'undefined')
+                post.likes = nuevapublicacion.likes;
+            if (typeof nuevapublicacion.comentarios !== 'undefined')
+                post.comentarios = nuevapublicacion.comentarios;
+            if (typeof nuevapublicacion.shares !== 'undefined')
+                post.shares = nuevapublicacion.shares;
             post.save()
                 .then(postupdated => res.status(200).json(postupdated.publicData()))
                 .catch(next);
