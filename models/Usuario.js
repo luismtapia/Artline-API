@@ -12,6 +12,10 @@ const UsuarioSchema = new mongoose.Schema(
     email: { type: String, required: true, lowercase: true, unique: true },
     followercount: Number,
     bio: { type: String }, //Quitamos el required
+    fotoPerfil: {
+      imageURL: { type: String },
+      public_id: { type: String } //Id único que le da cloudinary a la imagen
+    },
     postcount: Number, // Número de posts - Aggregate
     likes: Number,
     hash: String,
@@ -30,6 +34,7 @@ UsuarioSchema.methods.publicData = function () {
     email: this.email,
     followercount: this.followercount,
     bio: this.bio,
+    fotoPerfil: this.fotoPerfil,
     likes: this.likes,
   };
 };
@@ -77,6 +82,7 @@ UsuarioSchema.methods.toLoginJSON = function () {
     username: this.username,
     nombre: this.nombre,
     email: this.email,
+    fotoPerfil: this.fotoPerfil,
     token: this.generaJWT()
   };
 };

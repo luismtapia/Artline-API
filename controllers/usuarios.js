@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Usuario = mongoose.model("Usuario");
 const passport = require("passport");
+const { cloudinary } = require('../config/cloudinary');
 
 // CRUD para Usuario
 function createUsuario(req, res, next) {
@@ -27,16 +28,12 @@ function createUsuario(req, res, next) {
   }
 }
 
-function updateUsuario(req, res, next) {
-  Usuario.findById(req.usuario.id)
-    .then((user) => {
+function updateUsuario(req, res, next) {    
+  Usuario.findById(req.params.id)
+    .then(async (user) => {
       if (!user) return res.sendStatus(401);
 
-      let nuevaInfo = req.body;
-
-      if (typeof nuevaInfo.password !== "undefined") {
-        user.crearPassword(nuevaInfo.password);
-      }
+      let nuevaInfo = req.body.data;
 
       if (typeof nuevaInfo.nombre !== "undefined") {
         user.nombre = nuevaInfo.nombre;
@@ -53,7 +50,17 @@ function updateUsuario(req, res, next) {
       if (typeof nuevaInfo.likes !== "undefined") {
         user.likes = nuevaInfo.likes;
       }
-
+      if (typeof nuevaInfo.base64EncodedImage !== "undefined") {
+        const uploadedResponse = await cloudinary.v2.uploader.
+          upload(nuevaInfo.base64EncodedImage, {
+              folder: "artline" 
+            });
+        // console.log(uploadedResponse)
+        user.fotoPerfil = {
+          imageURL: uploadedResponse.secure_url,
+          public_id: uploadedResponse.public_id
+        };
+      }
       user
         .save()
         .then((updated) => {
