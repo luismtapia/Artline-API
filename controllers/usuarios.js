@@ -28,7 +28,7 @@ function createUsuario(req, res, next) {
   }
 }
 
-function updateUsuario(req, res, next) {    
+function updateUsuario(req, res, next) {
   Usuario.findById(req.params.id)
     .then(async (user) => {
       if (!user) return res.sendStatus(401);
@@ -50,11 +50,14 @@ function updateUsuario(req, res, next) {
       if (typeof nuevaInfo.likes !== "undefined") {
         user.likes = nuevaInfo.likes;
       }
+      if (typeof nuevaInfo.amigos !== "undefined") {
+        user.amigos = nuevaInfo.amigos;
+      }
       if (typeof nuevaInfo.base64EncodedImage !== "undefined") {
         const uploadedResponse = await cloudinary.v2.uploader.
           upload(nuevaInfo.base64EncodedImage, {
-              folder: "artline" 
-            });
+            folder: "artline"
+          });
         // console.log(uploadedResponse)
         user.fotoPerfil = {
           imageURL: uploadedResponse.secure_url,

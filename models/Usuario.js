@@ -18,6 +18,10 @@ const UsuarioSchema = new mongoose.Schema(
     },
     postcount: Number, // Número de posts - Aggregate
     likes: Number,
+    amigos: {
+      type: Array,
+      default: []
+    },
     hash: String,
     salt: String,
   },
@@ -36,6 +40,7 @@ UsuarioSchema.methods.publicData = function () {
     bio: this.bio,
     fotoPerfil: this.fotoPerfil,
     likes: this.likes,
+    amigos: this.amigos
   };
 };
 
@@ -83,6 +88,7 @@ UsuarioSchema.methods.toLoginJSON = function () {
     nombre: this.nombre,
     email: this.email,
     fotoPerfil: this.fotoPerfil,
+    amigos: this.amigos,
     token: this.generaJWT()
   };
 };
