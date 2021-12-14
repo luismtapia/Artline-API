@@ -28,13 +28,14 @@ function createUsuario(req, res, next) {
   }
 }
 
-function updateUsuario(req, res, next) {    
+function updateUsuario(req, res, next) {
+  
   Usuario.findById(req.params.id)
     .then(async (user) => {
       if (!user) return res.sendStatus(401);
 
       let nuevaInfo = req.body.data;
-
+      
       if (typeof nuevaInfo.nombre !== "undefined") {
         user.nombre = nuevaInfo.nombre;
       }
