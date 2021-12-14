@@ -14,16 +14,16 @@ const {
 } = require('../controllers/publicaciones');
 
 // Métodos (verbos)
-router.post('/', createPublicacion); // auth.requerido
+router.post('/', auth.requerido, createPublicacion); // auth.requerido
 router.get('/poblar/:registros', poblar);
-router.get('/postBYusuario/:usuario', PublicacionesPORUsuario); // auth.requerido?
-router.get('/totalpostBYusuario/:usuario', TotalPublicacionesPORUsuario); // auth.requerido
+router.get('/postBYusuario/:usuario', auth.requerido, PublicacionesPORUsuario); // auth.requerido?
+router.get('/totalpostBYusuario/:usuario', auth.requerido, TotalPublicacionesPORUsuario); // auth.requerido
 router.get('/numPublicaciones/:idUsuario/:num', readNumPublicaciones);
-router.get('/atributos', readAtributosPublicacion);// auth.requerido
-router.get('/params', readParametrosPublicaciones);// auth.requerido
+router.get('/atributos', auth.requerido, readAtributosPublicacion);// auth.requerido
+router.get('/params', auth.requerido, readParametrosPublicaciones);// auth.requerido
 router.get('/:id', readPublicacion);
 router.get('/', readPublicacion);
-router.put('/:id', updatePublicacion); // auth.requerido
-router.delete('/:id', deletePublicacion);// auth.requerido
+router.put('/:id', auth.requerido, updatePublicacion); // auth.requerido
+router.delete('/:id', auth.requerido, deletePublicacion);// auth.requerido
 
 module.exports = router;
