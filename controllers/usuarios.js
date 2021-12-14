@@ -28,8 +28,22 @@ function createUsuario(req, res, next) {
 }
 
 function updateUsuario(req, res, next) {
+  /* passport.authenticate(
+    "local",
+    { session: false },
+    function (err, user, info) {
+      if (err) return next(err);
+      if (user) {
+        console.log(`¡Se actualizaron tus datos ${user.nombre}!`);
+        return res.status(200).json(user.toLoginJSON());
+      } else {
+        return res.status(422).json(info);
+      }
+    }
+  )(req, res, next); */
   Usuario.findById(req.usuario.id)
     .then((user) => {
+      
       if (!user) return res.sendStatus(401);
 
       let nuevaInfo = req.body;
@@ -180,7 +194,8 @@ function loginSession(req, res, next) {
     function (err, user, info) {
       if (err) return next(err);
       if (user) {
-        console.log(`¡Bienvenid@ a Artline, ${user.nombre}!`);
+        console.log(`¡Bienvenid@ a Artline, ${user.name}!`);
+        console.log(user);
         return res.status(200).json(user.toLoginJSON());
       } else {
         return res.status(422).json(info);

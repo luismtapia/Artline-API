@@ -24,7 +24,8 @@ router.get('/:id', readIdUsuario);
 router.post('/', createUsuario);
 // router.post('/entrar', auth.requerido, loginSession);
 router.post('/entrar', loginSession);
-router.put('/:id', auth.requerido, updateUsuario);
+// router.put('/:id', auth.requerido, updateUsuario);
+router.put('/:id', updateUsuario);
 router.delete('/:id', deleteUsuario);
 
 

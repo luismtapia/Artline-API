@@ -13,8 +13,10 @@ app.use(cors());
 // Configuración de Mongoose
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI, // obtiene la url de conexión desde las variables de entorno
+/* mongoose.connect(process.env.MONGO_URI, // obtiene la url de conexión desde las variables de entorno
     { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }
+); */
+mongoose.connect("mongodb+srv://db_artline:dbuserbedu@bedue10artline.hhsqn.mongodb.net/artline"
 );
 mongoose.set('debug', true);
 
@@ -27,6 +29,10 @@ require('./config/passport');
 // Configuración de Rutas
 app.use('/Artline', require('./routes'));
 
-app.listen(process.env.PORT, () => {
+/* app.listen(process.env.PORT, () => {
     console.log(`Servidor escuchando en el puerto ${process.env.PORT}`);
+}); */
+const PORT = 4001;
+app.listen(PORT, () => {
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
