@@ -78,6 +78,22 @@ function ComentariosPORPublicacion(req, res, next) {
       '$match': {
         'idPublicacion': new ObjectId(post)
       }
+    }, {
+      '$project': {
+        '_id': 1,
+        'idUsuario': 1,
+        'attachment': 1,
+        'idPublicacion': 1,
+        'texto': 1,
+        'createdAt': 1
+      }
+    }, {
+      '$lookup': {
+        'from': 'Usuarios',
+        'localField': 'idUsuario',
+        'foreignField': '_id',
+        'as': 'usuario'
+      }
     }
   ])
     .then(comment => res.status(200).send(comment))
