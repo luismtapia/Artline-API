@@ -1,14 +1,24 @@
 const mongoose = require('mongoose');
 const { ObjectId } = require('mongodb');
 const Publicacion = mongoose.model("Publicacion");
+const { cloudinary } = require('../config/cloudinary');
 
 // imports para poblar BD
 const Usuario = mongoose.model("Usuario");
 const { imagenes, descripciones } = require('../config/variablesBD');
 
 // CRUD para Publicacion
-function createPublicacion(req, res, next) {
-    const publicacion = new Publicacion(req.body);
+const createPublicacion = async (req, res, next) => {
+    const info = req.body;
+    if (typeof info.imagen !== "undefined") {
+        const uploadedResponse = await cloudinary.v2.uploader.
+            upload(info.imagen, {
+                folder: "artline/publicaciones"
+            });
+        // console.log(uploadedResponse)
+        info.imagen = uploadedResponse.secure_url;
+    }
+    const publicacion = new Publicacion(info);
     publicacion.save()
         .then(post => {
             res.status(200).json(post.publicData());
@@ -91,8 +101,8 @@ function updatePublicacion(req, res, next) {
             if (typeof nuevapublicacion.idUsuario !== 'undefined')
                 post.idUsuario = nuevapublicacion.idUsuario;
             // eliminar arriba y agregar comentarios y shares abajo
-            if (typeof nuevapublicacion.imagen !== 'undefined')
-                post.imagen = nuevapublicacion.imagen;
+            // if (typeof nuevapublicacion.imagen !== 'undefined')
+            //     post.imagen = nuevapublicacion.imagen;
             if (typeof nuevapublicacion.descripcion !== 'undefined')
                 post.descripcion = nuevapublicacion.descripcion;
             if (typeof nuevapublicacion.likes !== 'undefined')
