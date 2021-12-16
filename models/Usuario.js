@@ -77,7 +77,11 @@ UsuarioSchema.methods.toAuthJSON = function () {
   return {
     id: this._id,
     username: this.username,
-    token: this.generaJWT()
+    token: this.generaJWT(),
+    email: this.email,
+    nombre: this.nombre,
+    fotoPerfil: this.fotoPerfil,
+    bio: this.bio
   };
 };
 
